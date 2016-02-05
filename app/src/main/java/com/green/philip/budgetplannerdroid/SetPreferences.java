@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.math.BigDecimal;
 
+
 public class SetPreferences extends AppCompatActivity {
     EditText editMonthlyIncome, editFixedPercent, editSavingsPercent, editFlexiblePercent;
 
@@ -54,6 +55,7 @@ public class SetPreferences extends AppCompatActivity {
         confirmSettings();
         //toMainActivity();
         //showSettings();
+
     }
 
     public void confirmSettings() {

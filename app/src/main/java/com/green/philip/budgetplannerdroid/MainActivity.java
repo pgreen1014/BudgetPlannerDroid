@@ -1,5 +1,6 @@
 package com.green.philip.budgetplannerdroid;
 
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.parse.FindCallback;
 import com.parse.Parse;
@@ -45,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     double totalToSpend;
     double totalSpent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         addData();
         toManageData();
     }
-
 
     public void toSetPreferences(){
         btnToSetPreferences.setOnClickListener(
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         else{
                             Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_LONG).show();
                         }
+
                     }
                 }
         );
@@ -194,7 +196,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return total;
     }
-
-
 
 }

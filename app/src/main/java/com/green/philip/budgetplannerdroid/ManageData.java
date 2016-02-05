@@ -8,7 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +53,7 @@ public class ManageData extends AppCompatActivity {
 
         myDb = new DatabaseHelper(this);
 
+
         editID = (EditText)findViewById(R.id.editText_ID);
         btnViewData = (Button)findViewById(R.id.button_viewData);
         btnDeleteData = (Button)findViewById(R.id.button_deleteData);
@@ -60,6 +63,7 @@ public class ManageData extends AppCompatActivity {
 
         //viewAllData();
         viewAllDataCloud();
+
         toManageFixedExpenditure();
         deleteData();
         deleteAllData();
@@ -128,12 +132,15 @@ public class ManageData extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         /*Integer deletedRows = myDb.deleteRow(editID.getText().toString());
+
                         if(deletedRows > 0){
                             Toast.makeText(ManageData.this, "Data Deleted", Toast.LENGTH_LONG).show();
                         }
                         else{
                             Toast.makeText(ManageData.this, "Data not Deleted", Toast.LENGTH_LONG).show();
+
                         }*/
                         ParseQuery<ParseObject> query = ParseQuery.getQuery("FlexibleExpenditure");
                         query.getInBackground("P5Di0JUmhm", new GetCallback<ParseObject>() {
@@ -148,6 +155,7 @@ public class ManageData extends AppCompatActivity {
                                 }
                             }
                         });
+
                     }
                 }
         );
@@ -158,7 +166,9 @@ public class ManageData extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         /*int deletedRows = myDb.deleteAllRows();
+
                         if(deletedRows == 1){
                             Toast.makeText(ManageData.this, "Data Deleted", Toast.LENGTH_LONG).show();
                         }
@@ -188,6 +198,7 @@ public class ManageData extends AppCompatActivity {
                                 }
                             }
                         });
+
                     }
                 }
         );

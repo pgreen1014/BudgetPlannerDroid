@@ -5,12 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import android.widget.Toast;
+
 
 import java.util.LinkedList;
 
-/**
- * Created by Philip on 12/1/2015.
+/*
+ Created by Philip on 12/1/2015.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "finances.db";
