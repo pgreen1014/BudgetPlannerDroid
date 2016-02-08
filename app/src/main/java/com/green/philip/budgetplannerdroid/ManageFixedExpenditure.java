@@ -14,6 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class ManageFixedExpenditure extends AppCompatActivity {
     DatabaseHelper myDb;
     EditText editFixedAmount, editFixedDetails;
@@ -29,8 +36,6 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        myDb = new DatabaseHelper(this);
 
         editFixedAmount = (EditText)findViewById(R.id.editText_fixedExpense);
         editFixedDetails = (EditText)findViewById(R.id.editText_fixedDetails);
@@ -49,34 +54,34 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         double fixedPercentDoub = fixedPercent;
         double percentDecimal = fixedPercentDoub/100.0;
         totalToSpend = monthlyIncomeDoub*percentDecimal;
-        double totalSpent;
+        double totalSpent = setSpendingTotal();
 
-        if(myDb.getFixedData() != null){
-            totalSpent = myDb.getFixedSpendingTotal();
-            totalRemainingFixedExpenditure.setText(String.valueOf(totalToSpend - totalSpent));
-        }
-        else{
-            totalRemainingFixedExpenditure.setText(String.valueOf(totalToSpend));
-        }
+        totalRemainingFixedExpenditure.setText(String.valueOf(totalToSpend - totalSpent));
 
         addData();
         returnToManageData();
     }
-
-    public void addData() {
+    
+    public void addData(){
         btnAddData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean isInserted = myDb.insertFixedData(editFixedAmount.getText().toString(), editFixedDetails.getText().toString());
-                        if(isInserted == true){
-                            Toast.makeText(ManageFixedExpenditure.this, "Data Inserted", Toast.LENGTH_LONG).show();
-
-                            double totalSpent = myDb.getFixedSpendingTotal();
-                            totalRemainingFixedExpenditure.setText(String.valueOf(totalToSpend - totalSpent));
+                        //initialize parse object
+                        ParseObject data = new ParseObject("FixedExpenditure");
+                        //get fixed amount and save to double
+                        String fixedText = editFixedAmount.getText().toString();
+                        double fixedDouble = 0;
+                        try {
+                            fixedDouble = Double.parseDouble(fixedText);
+                        } catch(NumberFormatException e){
+                            Toast.makeText(ManageFixedExpenditure.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
                         }
-                        else {
-                            Toast.makeText(ManageFixedExpenditure.this, "Data not Inserted", Toast.LENGTH_LONG).show();
+                        //if parsing was successful, fixedDouble will not equal 0 and we can add data
+                        if(fixedDouble != 0){
+                            data.put("amount", fixedDouble);
+                            data.put("details", editFixedDetails.getText().toString());
+                            data.saveInBackground();
                         }
                     }
                 }
@@ -93,6 +98,23 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    public double setSpendingTotal() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FixedExpenditure");
+        query.selectKeys(Arrays.asList("amount"));
+        double total = 0;
+        try {
+            List<ParseObject> results = query.find();
+            double amount;
+            for(ParseObject result: results){
+                amount = result.getDouble("amount");
+                total += amount;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 
 }

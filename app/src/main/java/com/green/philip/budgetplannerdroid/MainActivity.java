@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         }catch(NumberFormatException e){
                             Toast.makeText(MainActivity.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
                         }
-                        //if parsing was successful, flexibleInt will not equal 0 and we can add data
+                        //if parsing was successful, flexibleDouble will not equal 0 and we can add data
                         if(flexibleDouble!=0){
                             data.put("amount", flexibleDouble);
                             data.put("details", editFlexibleDetails.getText().toString());
