@@ -22,12 +22,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ManageFixedExpenditure extends AppCompatActivity {
-    DatabaseHelper myDb;
     EditText editFixedAmount, editFixedDetails;
     TextView totalRemainingFixedExpenditure;
     Button btnAddData;
     Button btnReturn;
     double totalToSpend;
+    double totalRemaining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,6 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         setContentView(R.layout.activity_manage_fixed_expenditure);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         editFixedAmount = (EditText)findViewById(R.id.editText_fixedExpense);
         editFixedDetails = (EditText)findViewById(R.id.editText_fixedDetails);
@@ -55,8 +54,8 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         double percentDecimal = fixedPercentDoub/100.0;
         totalToSpend = monthlyIncomeDoub*percentDecimal;
         double totalSpent = setSpendingTotal();
-
-        totalRemainingFixedExpenditure.setText(String.valueOf(totalToSpend - totalSpent));
+        totalRemaining = totalToSpend - totalSpent;
+        totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining));
 
         addData();
         returnToManageData();
@@ -79,6 +78,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                         }
                         //if parsing was successful, fixedDouble will not equal 0 and we can add data
                         if(fixedDouble != 0){
+                            totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining - fixedDouble));
                             data.put("amount", fixedDouble);
                             data.put("details", editFixedDetails.getText().toString());
                             data.saveInBackground();
