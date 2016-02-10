@@ -61,7 +61,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         addData();
         returnToManageData();
     }
-    
+
     public void addData(){
         btnAddData.setOnClickListener(
                 new View.OnClickListener() {
