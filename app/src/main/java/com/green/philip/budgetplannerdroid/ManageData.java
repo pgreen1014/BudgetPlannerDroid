@@ -61,67 +61,110 @@ public class ManageData extends AppCompatActivity {
         btnDeleteAllData = (Button)findViewById(R.id.button_deleteAllData);
         btnReturnToMain = (Button)findViewById(R.id.button_returnToMain);
 
-        //viewAllData();
-        viewAllDataCloud();
-
+        //viewAllDataAsync();
         toManageFixedExpenditure();
         deleteData();
         deleteAllData();
         toMainMenu();
+        viewDataSync();
     }
 
-    /*public void viewAllData(){
-        btnViewData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Cursor result = myDb.getAllData();
-
-                        if(result.getCount() == 0 ){
-                            showMessage("Error", "No Data Found");
-                            return;
-                        }
-                        StringBuffer buffer = new StringBuffer();
-                        while(result.moveToNext()) {
-                            buffer.append("ID: " + result.getString(0) + "\n");
-                            buffer.append("Category: " + result.getString(1)+ "\n");
-                            buffer.append("Amount: " +result.getString(2)+ "\n");
-                            buffer.append("Details: " + result.getString(3)+ "\n" + "\n");
-                        }
-
-                        showMessage("Data", buffer.toString());
-                    }
-                }
-        );
-    }*/
-
     //shows all data on the parse database to the screen
-    public void viewAllDataCloud(){
+    //Runs in async task
+    /*public void viewAllDataAsync(){
         btnViewData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("FlexibleExpenditure");
-                        query.findInBackground(new FindCallback<ParseObject>() {
+                        final StringBuffer buffer = new StringBuffer();
+                        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("FlexibleExpenditure");
+                        flexibleQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> expenseList, ParseException e) {
                                 if (e == null) {
-                                    StringBuffer buffer = new StringBuffer();
-                                    for (ParseObject item : expenseList) {
+                                    for (ParseObject item: expenseList) {
                                         String amount = String.valueOf(item.getDouble("amount"));
                                         String details = item.getString("details");
                                         buffer.append("Category: Flexible Expenditure" + "\n");
                                         buffer.append("Amount: " + amount + "\n");
                                         buffer.append("Details: " + details + "\n" + "\n");
                                     }
-                                    showMessage("Data", buffer.toString());
+                                    //showMessage("Data", buffer.toString());
                                 } else {
-                                    showMessage("Error", "No Data Found");
+                                    e.printStackTrace();
                                 }
                             }
                         });
+                        ParseQuery<ParseObject> fixedQuery = ParseQuery.getQuery("FixedExpenditure");
+                        fixedQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> objects, ParseException e) {
+                                if (e == null) {
+                                    for (ParseObject item: objects) {
+                                        String amount = String.valueOf(item.getDouble("amount"));
+                                        String details = item.getString("details");
+                                        buffer.append("Category: Fixed Expenditure" + "\n");
+                                        buffer.append("Amount: " + amount + "\n");
+                                        buffer.append("Details: " + details + "\n"+"\n");
+                                    }
+                                }
+                                else {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        String message = buffer.toString();
+                        if(message.isEmpty() == false){
+                            showMessage("Data", message);
+                        }
+                        else{
+                            Toast.makeText(ManageData.this, "problem with async task", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+    }*/
 
+    //Runs in sync --> needs to run in a background task
+    public void viewDataSync(){
+        btnViewData.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        StringBuffer buffer = new StringBuffer();
+                        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("FlexibleExpenditure");
+                        try {
+                            List<ParseObject> results = flexibleQuery.find();
+                            for(ParseObject result: results) {
+                                String amount = String.valueOf(result.getDouble("amount"));
+                                String details = result.getString("details");
+                                buffer.append("Category: Flexible Expenditure" + "\n");
+                                buffer.append("Amount: " + amount + "\n");
+                                buffer.append("Details: " + details + "\n"+"\n");
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        ParseQuery<ParseObject> fixedQuery = ParseQuery.getQuery("FixedExpenditure");
+                        try {
+                            List<ParseObject> results = fixedQuery.find();
+                            for(ParseObject result: results) {
+                                String amount = String.valueOf(result.getDouble("amount"));
+                                String details = result.getString("details");
+                                buffer.append("Category: Fixed Expenditure" + "\n");
+                                buffer.append("Amount: " + amount + "\n");
+                                buffer.append("Details: " + details + "\n"+"\n");
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        String message = buffer.toString();
+                        if(message.isEmpty() == false){
+                            showMessage("Data", message);
+                        }
+                        else{
+                            Toast.makeText(ManageData.this, "problem with async task", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
         );
