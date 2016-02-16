@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ManageData extends AppCompatActivity {
-    DatabaseHelper myDb;
     EditText editID;
     Button btnViewData;
     Button btnDeleteData;
