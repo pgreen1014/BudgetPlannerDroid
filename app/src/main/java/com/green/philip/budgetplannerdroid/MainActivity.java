@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //Initialize ParseObject
-                        ParseObject data = new ParseObject("FlexibleExpenditure");
+                        ParseObject data = new ParseObject("Expenditure");
                         //Get Flexible amount and save to string
                         String flexibleText = editFlexibleAmount.getText().toString();
                         double flexibleDouble = 0;
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         //if parsing was successful, flexibleDouble will not equal 0 and we can add data
                         if(flexibleDouble!=0){
+                            data.put("category", "Flexible_Expenditure");
                             data.put("amount", flexibleDouble);
                             data.put("details", editFlexibleDetails.getText().toString());
                             data.saveInBackground();
@@ -181,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public double setSpendingTotal() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FlexibleExpenditure");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
+        query.whereEqualTo("category", "Flexible_Expenditure");
         query.selectKeys(Arrays.asList("amount"));
         double total = 0;
         try {

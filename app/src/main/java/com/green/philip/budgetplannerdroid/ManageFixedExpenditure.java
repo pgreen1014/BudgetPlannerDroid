@@ -67,7 +67,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //initialize parse object
-                        ParseObject data = new ParseObject("FixedExpenditure");
+                        ParseObject data = new ParseObject("Expenditure");
                         //get fixed amount and save to double
                         String fixedText = editFixedAmount.getText().toString();
                         double fixedDouble = 0;
@@ -79,6 +79,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                         //if parsing was successful, fixedDouble will not equal 0 and we can add data
                         if(fixedDouble != 0){
                             totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining - fixedDouble));
+                            data.put("category", "Fixed_Expenditure");
                             data.put("amount", fixedDouble);
                             data.put("details", editFixedDetails.getText().toString());
                             data.saveInBackground();
@@ -101,7 +102,8 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     }
 
     public double setSpendingTotal() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FixedExpenditure");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
+        query.whereEqualTo("category", "Fixed_Expenditure");
         query.selectKeys(Arrays.asList("amount"));
         double total = 0;
         try {

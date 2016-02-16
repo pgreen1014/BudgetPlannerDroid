@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ManageData extends AppCompatActivity {
@@ -33,6 +34,9 @@ public class ManageData extends AppCompatActivity {
     Button btnReturnToMain;
     Button btnFixedExpenditure;
     Button btnDeleteAllData;
+
+    //HashMap to assign simpler ids to parse objects for individual deletion
+    HashMap<Integer, String> id = new HashMap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +54,6 @@ public class ManageData extends AppCompatActivity {
             }
         });*/
 
-
-        myDb = new DatabaseHelper(this);
-
-
         editID = (EditText)findViewById(R.id.editText_ID);
         btnViewData = (Button)findViewById(R.id.button_viewData);
         btnDeleteData = (Button)findViewById(R.id.button_deleteData);
@@ -61,17 +61,18 @@ public class ManageData extends AppCompatActivity {
         btnDeleteAllData = (Button)findViewById(R.id.button_deleteAllData);
         btnReturnToMain = (Button)findViewById(R.id.button_returnToMain);
 
+
         //viewAllDataAsync();
         toManageFixedExpenditure();
         deleteData();
         deleteAllData();
         toMainMenu();
-        viewDataSync();
+        viewData();
     }
 
     //shows all data on the parse database to the screen
     //Runs in async task
-    /*public void viewAllDataAsync(){
+    public void viewAllDataAsync(){
         btnViewData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -123,47 +124,41 @@ public class ManageData extends AppCompatActivity {
                     }
                 }
         );
-    }*/
+    }
 
     //Runs in sync --> needs to run in a background task
-    public void viewDataSync(){
+    public void viewData(){
         btnViewData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         StringBuffer buffer = new StringBuffer();
-                        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("FlexibleExpenditure");
+                        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("Expenditure");
+                        int count = 1;
                         try {
                             List<ParseObject> results = flexibleQuery.find();
                             for(ParseObject result: results) {
+                                String objectID = result.getObjectId();
+                                id.put(count, objectID);
                                 String amount = String.valueOf(result.getDouble("amount"));
                                 String details = result.getString("details");
-                                buffer.append("Category: Flexible Expenditure" + "\n");
+                                String category = result.getString("category");
+                                buffer.append("ID: " + count + "\n");
+                                buffer.append("Category: " + category + "\n");
                                 buffer.append("Amount: " + amount + "\n");
                                 buffer.append("Details: " + details + "\n"+"\n");
+                                count ++;
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                         ParseQuery<ParseObject> fixedQuery = ParseQuery.getQuery("FixedExpenditure");
-                        try {
-                            List<ParseObject> results = fixedQuery.find();
-                            for(ParseObject result: results) {
-                                String amount = String.valueOf(result.getDouble("amount"));
-                                String details = result.getString("details");
-                                buffer.append("Category: Fixed Expenditure" + "\n");
-                                buffer.append("Amount: " + amount + "\n");
-                                buffer.append("Details: " + details + "\n"+"\n");
-                            }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
                         String message = buffer.toString();
                         if(message.isEmpty() == false){
                             showMessage("Data", message);
                         }
                         else{
-                            Toast.makeText(ManageData.this, "problem with async task", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ManageData.this, "Error", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -176,28 +171,33 @@ public class ManageData extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        /*Integer deletedRows = myDb.deleteRow(editID.getText().toString());
+                        String inputValue = editID.getText().toString();
+                        int key = 0;
+                        try{
+                            key = Integer.parseInt(inputValue);
+                        }catch(NumberFormatException e){
+                            e.printStackTrace();
+                        }
+                        if(key != 0){
 
-                        if(deletedRows > 0){
-                            Toast.makeText(ManageData.this, "Data Deleted", Toast.LENGTH_LONG).show();
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
+                            query.getInBackground(id.get(key), new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject object, ParseException e) {
+                                    if (e == null) {
+                                        object.deleteInBackground();
+                                        Toast.makeText(ManageData.this, "Query Successful", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(ManageData.this, "Query Failed", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                         }
                         else{
-                            Toast.makeText(ManageData.this, "Data not Deleted", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ManageData.this, "Invalid Input", Toast.LENGTH_LONG).show();
+                        }
 
-                        }*/
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("FlexibleExpenditure");
-                        query.getInBackground("P5Di0JUmhm", new GetCallback<ParseObject>() {
-                            @Override
-                            public void done(ParseObject object, ParseException e) {
-                                if (e == null) {
-                                    object.deleteInBackground();
-                                    Toast.makeText(ManageData.this, "Query Successful", Toast.LENGTH_LONG).show();
-                                }
-                                else{
-                                    Toast.makeText(ManageData.this, "Query Failed", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+
 
                     }
                 }
@@ -210,16 +210,8 @@ public class ManageData extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        /*int deletedRows = myDb.deleteAllRows();
 
-                        if(deletedRows == 1){
-                            Toast.makeText(ManageData.this, "Data Deleted", Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            Toast.makeText(ManageData.this, "Data not Deleted", Toast.LENGTH_LONG).show();
-                        }*/
-
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("FlexibleExpenditure");
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
                         query.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> objects, ParseException e) {
