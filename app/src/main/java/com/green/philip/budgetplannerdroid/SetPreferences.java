@@ -20,10 +20,7 @@ public class SetPreferences extends AppCompatActivity {
     EditText editMonthlyIncome, editFixedPercent, editSavingsPercent, editFlexiblePercent;
 
     Button btnConfirm;
-    //Button btnReturn;
-    //Button btnShowSettings;
 
-    //Settings variables
     int monthlyIncome, fixedPercent, savingsPercent, flexiblePercent;
 
     @Override
@@ -33,29 +30,14 @@ public class SetPreferences extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         editMonthlyIncome = (EditText)findViewById(R.id.editText_setMonthlyIncome);
         editFixedPercent = (EditText)findViewById(R.id.editText_percentFixed);
         editSavingsPercent = (EditText)findViewById(R.id.editText_percentSavings);
         editFlexiblePercent = (EditText)findViewById(R.id.editText_percentFlexible);
 
         btnConfirm = (Button)findViewById(R.id.button_confirmSettings);
-        //btnShowSettings = (Button)findViewById(R.id.button_showSettings);
-        //btnReturn = (Button)findViewById(R.id.button_returnMain);
 
-        ;
         confirmSettings();
-        //toMainActivity();
-        //showSettings();
-
     }
 
     public void confirmSettings() {
@@ -124,6 +106,7 @@ public class SetPreferences extends AppCompatActivity {
         );
     }
 
+    //shows current settings saved to SharedPreferences
     /*public void showSettings(){
         btnShowSettings.setOnClickListener(
                 new View.OnClickListener() {
@@ -139,22 +122,6 @@ public class SetPreferences extends AppCompatActivity {
 
                         Toast.makeText(SetPreferences.this, "Income: " + income + "\nFixed Percent: " + fixPercent + "\nSavings Percent: " + savPercent + "\nFlexible Percent: " + flexPercent, Toast.LENGTH_LONG).show();
 
-                    }
-                }
-        );
-    }*/
-
-
-    //set data using SharedPrefrences
-    /*public void toMainActivity(){
-        btnReturn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        Intent i = new Intent(SetPreferences.this, MainActivity.class);
-                        startActivity(i);
                     }
                 }
         );
