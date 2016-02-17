@@ -55,12 +55,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        //Cast editable texts
         editFlexibleAmount = (EditText)findViewById(R.id.editText_flexibleAmount);
         editFlexibleDetails = (EditText)findViewById(R.id.editText_flexibleDetails);
 
+        //Cast TextView
         totalRemainingText = (TextView)findViewById(R.id.textView_totalRemaining);
 
+        //Cast Buttons
         btnAddFlexibleData = (Button)findViewById(R.id.button_addFlexibleData);
         btnToSetPreferences = (Button)findViewById(R.id.button_toPreferences);
         btnManageData = (Button)findViewById(R.id.button_manageData);
@@ -72,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         savingsPercent = prefs.getInt("SAVINGS_PERCENT", 0);
         flexiblePercent = prefs.getInt("FLEXIBLE_PERCENT", 0);
 
-        totalSpent = setSpendingTotal();
+        //Set the total amount spent under flexible expenditure
+        totalSpent = setTotalSpent();
 
         //calculate monthly data
         double monthlyIncomeDoub = monthlyIncome;
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         double percentDecimal = flexiblePercentDoub/100.0;
         totalToSpend = monthlyIncomeDoub*percentDecimal;
 
+        //Show total remaining to screen
         totalRemainingText.setText(String.valueOf(totalToSpend - totalSpent));
 
         toSetPreferences();
@@ -146,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    //Changes to ManageData Activity
     public void toManageData(){
         btnManageData.setOnClickListener(
                 new View.OnClickListener() {
@@ -180,14 +185,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public double setSpendingTotal() {
+    //returns the total amount of flexible expenditure spent
+    public double setTotalSpent() {
+        //Query Parse Expenditure table for all data where the category = Flexible_Expenditure
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
         query.whereEqualTo("category", "Flexible_Expenditure");
+        //returns query as an array
         query.selectKeys(Arrays.asList("amount"));
         double total = 0;
         try {
             List<ParseObject> results = query.find();
             double amount;
+            //loops through array and adds each amount to the total
             for(ParseObject result: results){
                 amount = result.getDouble("amount");
                 total += amount;

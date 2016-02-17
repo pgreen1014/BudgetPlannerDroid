@@ -30,11 +30,11 @@ public class SetPreferences extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Cast EditText and Buttons
         editMonthlyIncome = (EditText)findViewById(R.id.editText_setMonthlyIncome);
         editFixedPercent = (EditText)findViewById(R.id.editText_percentFixed);
         editSavingsPercent = (EditText)findViewById(R.id.editText_percentSavings);
         editFlexiblePercent = (EditText)findViewById(R.id.editText_percentFlexible);
-
         btnConfirm = (Button)findViewById(R.id.button_confirmSettings);
 
         confirmSettings();

@@ -44,6 +44,7 @@ public class ManageData extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Cast EditText and Buttons
         editID = (EditText)findViewById(R.id.editText_ID);
         btnViewData = (Button)findViewById(R.id.button_viewData);
         btnDeleteData = (Button)findViewById(R.id.button_deleteData);
@@ -114,7 +115,7 @@ public class ManageData extends AppCompatActivity {
         );
     }
 
-    //Runs in sync --> needs to run in a background task
+    //View Parse data in syncTask --> needs to run in a background task
     public void viewData(){
         btnViewData.setOnClickListener(
                 new View.OnClickListener() {
@@ -122,57 +123,70 @@ public class ManageData extends AppCompatActivity {
                     public void onClick(View v) {
                         StringBuffer buffer = new StringBuffer();
                         ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("Expenditure");
+
+                        //assigns value of count as key to the object id in HashMap id
                         int count = 1;
                         try {
+                            //run query in synchronous task
                             List<ParseObject> results = flexibleQuery.find();
+                            //loop through query
                             for(ParseObject result: results) {
+                                //get id of object
                                 String objectID = result.getObjectId();
+                                //assign value of count as key to object id in HashMap id
                                 id.put(count, objectID);
+                                //get remaining object data
                                 String amount = String.valueOf(result.getDouble("amount"));
                                 String details = result.getString("details");
                                 String category = result.getString("category");
+                                //append data to StringBuffer buffer
                                 buffer.append("ID: " + count + "\n");
-                                buffer.append("Category: " + category + "\n");
                                 buffer.append("Amount: " + amount + "\n");
-                                buffer.append("Details: " + details + "\n"+"\n");
+                                buffer.append("Details: " + details + "\n");
+                                buffer.append("Category: " + category + "\n" + "\n");
                                 count ++;
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        ParseQuery<ParseObject> fixedQuery = ParseQuery.getQuery("FixedExpenditure");
+                        //convert StringBuffer to string
                         String message = buffer.toString();
+                        //if StringBuffer is not empty print data to screen
                         if(message.isEmpty() == false){
                             showMessage("Data", message);
                         }
                         else{
-                            Toast.makeText(ManageData.this, "Error", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ManageData.this, "No Data Found", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
         );
     }
 
+    //Delete data by id
     public void deleteData(){
         btnDeleteData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        //get id input from editID
                         String inputValue = editID.getText().toString();
+                        //initialize key to hold the id input
                         int key = 0;
                         try{
                             key = Integer.parseInt(inputValue);
                         }catch(NumberFormatException e){
                             e.printStackTrace();
                         }
+                        //if there was an input
                         if(key != 0){
-
+                            //query the data in asynchronous task
                             ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
                             query.getInBackground(id.get(key), new GetCallback<ParseObject>() {
                                 @Override
                                 public void done(ParseObject object, ParseException e) {
                                     if (e == null) {
+                                        //delete object in background
                                         object.deleteInBackground();
                                         Toast.makeText(ManageData.this, "Query Successful", Toast.LENGTH_LONG).show();
                                     } else {
@@ -192,6 +206,7 @@ public class ManageData extends AppCompatActivity {
         );
     }
 
+    //Delete all data in AsyncTask
     public void deleteAllData(){
         btnDeleteAllData.setOnClickListener(
                 new View.OnClickListener() {
@@ -204,6 +219,7 @@ public class ManageData extends AppCompatActivity {
                             @Override
                             public void done(List<ParseObject> objects, ParseException e) {
                                 if(e == null){
+                                    //counts how many objects were deleted
                                     int count = 0;
                                     for(ParseObject object: objects){
                                         object.deleteInBackground();
@@ -227,7 +243,7 @@ public class ManageData extends AppCompatActivity {
         );
     }
 
-
+    //Takes user to MangeFixedExpenditure activity
     public void toManageFixedExpenditure(){
         btnFixedExpenditure.setOnClickListener(
                 new View.OnClickListener() {
@@ -240,6 +256,7 @@ public class ManageData extends AppCompatActivity {
         );
     }
 
+    //Takes user to MainMenu
     public void toMainMenu(){
         btnReturnToMain.setOnClickListener(
                 new View.OnClickListener() {
@@ -252,6 +269,7 @@ public class ManageData extends AppCompatActivity {
         );
     }
 
+    //shows message to screen
     public void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);

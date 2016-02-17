@@ -36,10 +36,10 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Cast EditTexts, TextViews and Buttons
         editFixedAmount = (EditText)findViewById(R.id.editText_fixedExpense);
         editFixedDetails = (EditText)findViewById(R.id.editText_fixedDetails);
         totalRemainingFixedExpenditure = (TextView)findViewById(R.id.textView_totalFixedExpenditureRemaining);
-
         btnAddData = (Button)findViewById(R.id.button_addFixedExpense);
         btnReturn = (Button)findViewById(R.id.button_returnToManageData);
 
@@ -53,7 +53,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         double fixedPercentDoub = fixedPercent;
         double percentDecimal = fixedPercentDoub/100.0;
         totalToSpend = monthlyIncomeDoub*percentDecimal;
-        double totalSpent = setSpendingTotal();
+        double totalSpent = setTotalSpent();
         totalRemaining = totalToSpend - totalSpent;
         totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining));
 
@@ -61,6 +61,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         returnToManageData();
     }
 
+    //Add fixed expenditure data
     public void addData(){
         btnAddData.setOnClickListener(
                 new View.OnClickListener() {
@@ -89,6 +90,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         );
     }
 
+    //Takes user to manage data
     public void returnToManageData(){
         btnReturn.setOnClickListener(
                 new View.OnClickListener() {
@@ -101,14 +103,19 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         );
     }
 
-    public double setSpendingTotal() {
+    //returns total amount of fixed expenditure spent
+    public double setTotalSpent() {
+        //initialize query and constrain where category = Fixed_Expenditure
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
         query.whereEqualTo("category", "Fixed_Expenditure");
+        //gets data as an array
         query.selectKeys(Arrays.asList("amount"));
         double total = 0;
         try {
+            //run synchronous query
             List<ParseObject> results = query.find();
             double amount;
+            //loop through array result and calculate total spent
             for(ParseObject result: results){
                 amount = result.getDouble("amount");
                 total += amount;
