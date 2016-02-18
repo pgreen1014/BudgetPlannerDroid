@@ -29,6 +29,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,9 +84,13 @@ public class MainActivity extends AppCompatActivity {
         double flexiblePercentDoub = flexiblePercent;
         double percentDecimal = flexiblePercentDoub/100.0;
         totalToSpend = monthlyIncomeDoub*percentDecimal;
+        double totalRemaining = totalToSpend - totalSpent;
+        //Format double to the 2nd decimal point and take the floor
+        DecimalFormat df = new DecimalFormat("#0.00");
+        df.setRoundingMode(RoundingMode.DOWN);
 
         //Show total remaining to screen
-        totalRemainingText.setText(String.valueOf(totalToSpend - totalSpent));
+        totalRemainingText.setText(String.valueOf(df.format(totalRemaining)));
 
         toSetPreferences();
         addData();

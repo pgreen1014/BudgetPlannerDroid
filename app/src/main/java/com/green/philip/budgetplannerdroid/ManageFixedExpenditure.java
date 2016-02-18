@@ -18,6 +18,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,7 +57,11 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         totalToSpend = monthlyIncomeDoub*percentDecimal;
         double totalSpent = setTotalSpent();
         totalRemaining = totalToSpend - totalSpent;
-        totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining));
+        //Format double to the 2nd decimal point and take the floor
+        DecimalFormat df = new DecimalFormat("#0.00");
+        df.setRoundingMode(RoundingMode.DOWN);
+
+        totalRemainingFixedExpenditure.setText(df.format(totalRemaining));
 
         addData();
         returnToManageData();
