@@ -91,6 +91,10 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                             data.put("details", editFixedDetails.getText().toString());
                             data.saveInBackground();
                         }
+                        //else data is invalid and will not be inserted
+                        else{
+                            Toast.makeText(ManageFixedExpenditure.this, "Invalid Amount", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
         );

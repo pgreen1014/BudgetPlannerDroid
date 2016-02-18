@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         //else data is invalid and will not be inserted
                         else{
-                            Toast.makeText(MainActivity.this, "Data not Inserted", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
                         }
 
                     }
