@@ -33,6 +33,7 @@ public class ManageData extends AppCompatActivity {
     Button btnReturnToMain;
     Button btnFixedExpenditure;
     Button btnDeleteAllData;
+    private final static String TAG = "ManageData";
 
     //HashMap to assign simpler ids to parse objects for individual deletion
     HashMap<Integer, String> id = new HashMap();
@@ -147,7 +148,8 @@ public class ManageData extends AppCompatActivity {
                                 count ++;
                             }
                         } catch (ParseException e) {
-                            e.printStackTrace();
+                            //if no data is found or there is another error, else statement below will notify the user
+                            Log.e(TAG, "Unable to query data from the parse database", e);
                         }
                         //convert StringBuffer to string
                         String message = buffer.toString();
@@ -156,7 +158,7 @@ public class ManageData extends AppCompatActivity {
                             showMessage("Data", message);
                         }
                         else{
-                            Toast.makeText(ManageData.this, "No Data Found", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ManageData.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -176,7 +178,8 @@ public class ManageData extends AppCompatActivity {
                         try{
                             key = Integer.parseInt(inputValue);
                         }catch(NumberFormatException e){
-                            e.printStackTrace();
+                            //ouputs an message to the user in the else statement below
+                            Log.e(TAG, "Unable to parse editID", e);
                         }
                         //if there was an input
                         if(key != 0){

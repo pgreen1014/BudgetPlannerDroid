@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     Button btnReturn;
     double totalToSpend;
     double totalRemaining;
+    private final static String TAG = "ManageFixedExpenditure";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                             fixedDouble = Double.parseDouble(fixedText);
                         } catch(NumberFormatException e){
                             Toast.makeText(ManageFixedExpenditure.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
+                            Log.e(TAG, "unable to parse editFixedAmount", e);
                         }
                         //if parsing was successful, fixedDouble will not equal 0 and we can add data
                         if(fixedDouble != 0){
@@ -131,7 +134,8 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                 total += amount;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Toast.makeText(ManageFixedExpenditure.this, "Unable to Retrieve Data From Server", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Unable to query data from parse database", e);
         }
         return total;
     }

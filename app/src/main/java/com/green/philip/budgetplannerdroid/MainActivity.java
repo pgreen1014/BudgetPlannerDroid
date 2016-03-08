@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnAddFlexibleData;
     Button btnToSetPreferences;
     Button btnManageData;
+    private final static String TAG = "MainActivity";
 
     int monthlyIncome;
     int fixedPercent;
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                             flexibleDouble = Double.parseDouble(flexibleText);
                         }catch(NumberFormatException e){
                             Toast.makeText(MainActivity.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
+                            Log.e(TAG, "unable to parse double flexibleText", e);
                         }
                         //if parsing was successful, flexibleDouble will not equal 0 and we can add data
                         if(flexibleDouble!=0){
@@ -139,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
                             try{
                                 total = Double.parseDouble(text);
                             }catch(NumberFormatException e){
-                                e.printStackTrace();
+                                Toast.makeText(MainActivity.this, "Unable to Calculate total Remaining to Spend", Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "unable to parse double totalRemainingText", e);
                             }
                             double result = total - flexibleDouble;
                             totalRemainingText.setText(String.valueOf(result));
@@ -208,7 +211,8 @@ public class MainActivity extends AppCompatActivity {
                 total += amount;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "unable to query data from the parse database", e);
         }
         return total;
     }
