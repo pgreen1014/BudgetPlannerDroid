@@ -15,7 +15,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Data"
+        android:text="@string/viewData"
         android:id="@+id/button_viewData"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="ID"
+        android:text="@string/id"
         android:id="@+id/textView6"
         android:layout_marginTop="39dp"
         android:layout_below="@+id/button_viewData"
@@ -34,7 +34,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="@string/delete"
         android:id="@+id/button_deleteData"
         android:layout_below="@+id/textView6"
         android:layout_centerHorizontal="true"
@@ -43,7 +43,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fixed Expenditure"
+        android:text="@string/fixedExpenditure"
         android:id="@+id/button_toFixedExpenditure"
         android:layout_marginBottom="54dp"
         android:layout_alignParentBottom="true"
@@ -64,7 +64,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete All Data"
+        android:text="@string/deleteAllData"
         android:id="@+id/button_deleteAllData"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -72,7 +72,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Return"
+        android:text="@string/rtn"
         android:id="@+id/button_returnToMain"
         android:layout_alignTop="@+id/button_toFixedExpenditure"
         android:layout_alignParentLeft="true"

@@ -15,7 +15,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Preferences"
+        android:text="@string/setPreferences"
         android:id="@+id/button_toPreferences"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Amount"
+        android:text="@string/amount"
         android:id="@+id/textView"
         android:layout_marginTop="39dp"
         android:layout_below="@+id/textView3"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Details"
+        android:text="@string/details"
         android:id="@+id/textView2"
         android:layout_marginTop="31dp"
         android:layout_below="@+id/textView"
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Flexible Expenditure"
+        android:text="@string/mainActivityTitle"
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -66,7 +66,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Data"
+        android:text="@string/addData"
         android:id="@+id/button_addFlexibleData"
         android:layout_below="@+id/editText_flexibleDetails"
         android:layout_centerHorizontal="true" />
@@ -84,7 +84,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Data"
+        android:text="@string/manageData"
         android:id="@+id/button_manageData"
         android:layout_alignTop="@+id/button_toPreferences"
         android:layout_alignParentRight="true"
@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Remaining Amount: "
+        android:text="@string/remainingAmount"
         android:id="@+id/textView5"
         android:layout_alignTop="@+id/textView_totalRemaining"
         android:layout_alignParentLeft="true"

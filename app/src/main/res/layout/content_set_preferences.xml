@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Monthly Income"
+        android:text="@string/monthlyIncome"
         android:id="@+id/textView4"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Fixed Expenditure Percent"
+        android:text="@string/fixedExpenditurePercent"
         android:id="@+id/textView8"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Savings Percent"
+        android:text="@string/savingsPercent"
         android:id="@+id/textView9"
         android:layout_below="@+id/textView8"
         android:layout_alignParentLeft="true"
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Flexible Expenditure Precent"
+        android:text="@string/flexibleExpenditurePercent"
         android:id="@+id/textView10"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -58,7 +58,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save Settings"
+        android:text="@string/saveSettings"
         android:id="@+id/button_confirmSettings"
         android:layout_marginTop="78dp"
         android:layout_below="@+id/textView10"
@@ -73,7 +73,7 @@
         android:layout_above="@+id/textView9"
         android:layout_toRightOf="@+id/textView8"
         android:layout_toEndOf="@+id/textView8"
-        android:hint="e.g. 50" />
+        android:hint="@string/fixedExpenditurePercentHint" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
         android:id="@+id/editText_percentSavings"
         android:layout_alignBottom="@+id/textView9"
         android:layout_toRightOf="@+id/textView4"
-        android:hint="e.g. 20"
+        android:hint="@string/savingsPercentHint"
         android:layout_alignRight="@+id/button_confirmSettings"
         android:layout_alignEnd="@+id/button_confirmSettings" />
 
@@ -96,7 +96,7 @@
         android:layout_alignBottom="@+id/textView10"
         android:layout_toRightOf="@+id/textView10"
         android:layout_toEndOf="@+id/textView10"
-        android:hint="e.g. 30" />
+        android:hint="@string/flexibleExpenditurePercentHint" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -107,5 +107,5 @@
         android:layout_above="@+id/textView8"
         android:layout_toRightOf="@+id/textView4"
         android:layout_toEndOf="@+id/textView4"
-        android:hint="e.g. 3000" />
+        android:hint="@string/monthlyIncomeHint" />
 </RelativeLayout>

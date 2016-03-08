@@ -6,4 +6,26 @@
     <string name="title_activity_manage_data">ManageData</string>
     <string name="title_activity_manage_fixed_expenditure">ManageFixedExpenditure</string>
     <string name="title_activity_test">Test</string>
+    <string name="monthlyIncome">Monthly Income</string>
+    <string name="fixedExpenditurePercent">Fixed Expenditure Percent</string>
+    <string name="savingsPercent">Savings Percent</string>
+    <string name="flexibleExpenditurePercent">Flexible Expenditure Percent</string>
+    <string name="saveSettings">Save Settings</string>
+    <string name="monthlyIncomeHint">e.g. 3000</string>
+    <string name="fixedExpenditurePercentHint">e.g. 50</string>
+    <string name="savingsPercentHint">e.g. 20</string>
+    <string name="flexibleExpenditurePercentHint">e.g. 30</string>
+    <string name="setPreferences">Set Preferences</string>
+    <string name="amount">Amount</string>
+    <string name="details">Details</string>
+    <string name="mainActivityTitle">Flexible Expenditure</string>
+    <string name="addData">Add Data</string>
+    <string name="manageData">Manage Data</string>
+    <string name="remainingAmount">Remaining Amount: </string>
+    <string name="viewData">View Data</string>
+    <string name="id">ID</string>
+    <string name="delete">Delete</string>
+    <string name="fixedExpenditure">Fixed Expenditure</string>
+    <string name="deleteAllData">Delete All Data</string>
+    <string name="rtn">Return</string>
 </resources>
