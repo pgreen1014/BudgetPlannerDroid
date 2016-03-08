@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 
 public class SetPreferences extends AppCompatActivity {
     EditText editMonthlyIncome, editFixedPercent, editSavingsPercent, editFlexiblePercent;
+    private final static String TAG = "SetPreferences";
 
     Button btnConfirm;
 
@@ -54,6 +56,7 @@ public class SetPreferences extends AppCompatActivity {
                                 monthlyIncome = Integer.parseInt(editMonthlyIncome.getText().toString());
                             } catch (NumberFormatException e) {
                                 Toast.makeText(SetPreferences.this, "Invalid Input", Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "Unable to parse editMonthlyIncome input", e);
                             }
                         }
 
@@ -64,6 +67,7 @@ public class SetPreferences extends AppCompatActivity {
                             }
                             catch(NumberFormatException e){
                                 Toast.makeText(SetPreferences.this, "Invalid Fixed Expenditure Percent Input", Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "Unable to parse fixedText input", e);
                             }
                             //Parse editSavingsPercent and set to savingsPercent
                             try{
@@ -71,6 +75,7 @@ public class SetPreferences extends AppCompatActivity {
                             }
                             catch(NumberFormatException e){
                                 Toast.makeText(SetPreferences.this, "Invalid Savings Percent Input", Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "Unable to parse savingsText input", e);
                             }
                             //Parse flexibleText and set to flexiblePercent
                             try{
@@ -78,6 +83,7 @@ public class SetPreferences extends AppCompatActivity {
                             }
                             catch(NumberFormatException e){
                                 Toast.makeText(SetPreferences.this, "Invalid Flexible Expenditure Percent Input", Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "Unable to parse flexibleText Input", e);
                             }
                         }
                         else{
