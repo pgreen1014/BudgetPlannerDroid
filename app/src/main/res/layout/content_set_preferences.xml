@@ -73,7 +73,7 @@
         android:layout_above="@+id/textView9"
         android:layout_toRightOf="@+id/textView8"
         android:layout_toEndOf="@+id/textView8"
-        android:text="e.g. 50" />
+        android:hint="e.g. 50" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
         android:id="@+id/editText_percentSavings"
         android:layout_alignBottom="@+id/textView9"
         android:layout_toRightOf="@+id/textView4"
-        android:text="e.g. 20"
+        android:hint="e.g. 20"
         android:layout_alignRight="@+id/button_confirmSettings"
         android:layout_alignEnd="@+id/button_confirmSettings" />
 
@@ -96,7 +96,7 @@
         android:layout_alignBottom="@+id/textView10"
         android:layout_toRightOf="@+id/textView10"
         android:layout_toEndOf="@+id/textView10"
-        android:text="e.g. 30" />
+        android:hint="e.g. 30" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -107,5 +107,5 @@
         android:layout_above="@+id/textView8"
         android:layout_toRightOf="@+id/textView4"
         android:layout_toEndOf="@+id/textView4"
-        android:text="e.g. 3000" />
+        android:hint="e.g. 3000" />
 </RelativeLayout>
