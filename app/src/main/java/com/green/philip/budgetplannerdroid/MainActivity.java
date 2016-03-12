@@ -1,16 +1,11 @@
 package com.green.philip.budgetplannerdroid;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,17 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.parse.FindCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import helperClasses.FinanceDataHelper;
+import helperClasses.ParseHelper;
+import helperClasses.ParserHelper;
 
 public class MainActivity extends AppCompatActivity {
     EditText editFlexibleAmount, editFlexibleDetails;
@@ -50,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     double totalToSpend;
     double totalSpent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         //Show total remaining to screen
         totalRemainingText.setText(String.valueOf(df.format(totalRemaining)));
 
+
         toSetPreferences();
         addData();
         toManageData();
@@ -119,39 +117,33 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         //Initialize ParseObject
                         ParseObject data = new ParseObject("Expenditure");
+
                         //Get Flexible amount and save to string
                         String flexibleText = editFlexibleAmount.getText().toString();
-                        double flexibleDouble = 0;
-                        //Convert flexible amount in string format to double format
-                        try{
-                            flexibleDouble = Double.parseDouble(flexibleText);
-                        }catch(NumberFormatException e){
-                            Toast.makeText(MainActivity.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
-                            Log.e(TAG, "unable to parse double flexibleText", e);
-                        }
+
+                        //Parse flexibleText and save to double
+                        double flexibleDouble = ParserHelper.parseDouble(flexibleText);
+
                         //if parsing was successful, flexibleDouble will not equal 0 and we can add data
                         if(flexibleDouble!=0){
-                            data.put("category", "Flexible_Expenditure");
-                            data.put("amount", flexibleDouble);
-                            data.put("details", editFlexibleDetails.getText().toString());
-                            data.saveInBackground();
-                            //calculate total remaining to spend
+                            //put data into parse database
+                            ParseHelper.putFlexibleExpenditure(flexibleDouble, editFlexibleDetails.getText().toString());
+
+                            //calculate total remaining to spend and parse to double
                             String text = String.valueOf(totalRemainingText.getText());
-                            double total = 0;
-                            try{
-                                total = Double.parseDouble(text);
-                            }catch(NumberFormatException e){
-                                Toast.makeText(MainActivity.this, "Unable to Calculate total Remaining to Spend", Toast.LENGTH_LONG).show();
-                                Log.e(TAG, "unable to parse double totalRemainingText", e);
-                            }
-                            double result = total - flexibleDouble;
+                            double total = ParserHelper.parseDouble(text);
+
+                            //calculate total remaining and set to totalRemainingText
+                            double result = FinanceDataHelper.amountRemaining(total, flexibleDouble);
                             totalRemainingText.setText(String.valueOf(result));
 
+                            //notify user of successful data insertion
                             Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
                         }
                         //else data is invalid and will not be inserted
                         else{
                             Toast.makeText(MainActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "Unable to parse user input");
                         }
 
                     }
@@ -215,6 +207,24 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "unable to query data from the parse database", e);
         }
         return total;
+    }
+
+    public double getFlexibleAmount(){
+        String flexibleText = editFlexibleAmount.getText().toString();
+        double flexibleDouble = 0;
+        //Convert flexible amount in string format to double format
+        try{
+            flexibleDouble = Double.parseDouble(flexibleText);
+        }catch(NumberFormatException e){
+            Toast.makeText(MainActivity.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "unable to parse double flexibleText", e);
+        }
+        return flexibleDouble;
+    }
+
+    public String getFlexibleDetails(){
+        String details = editFlexibleDetails.getText().toString();
+        return details;
     }
 
 }

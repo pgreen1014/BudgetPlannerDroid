@@ -216,7 +216,6 @@ public class ManageData extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-
                         ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
                         query.findInBackground(new FindCallback<ParseObject>() {
                             @Override
