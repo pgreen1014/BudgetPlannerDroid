@@ -17,15 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
 
 import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
@@ -44,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     int savingsPercent;
     int flexiblePercent;
 
-    double totalToSpend;
     double totalSpent;
 
 
@@ -67,28 +58,16 @@ public class MainActivity extends AppCompatActivity {
         btnToSetPreferences = (Button)findViewById(R.id.button_toPreferences);
         btnManageData = (Button)findViewById(R.id.button_manageData);
 
-        //get data from sharedPreferences
-        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        monthlyIncome = prefs.getInt("MONTHLY_INCOME", 0);
-        fixedPercent = prefs.getInt("FIXED_PERCENT", 0);
-        savingsPercent = prefs.getInt("SAVINGS_PERCENT", 0);
-        flexiblePercent = prefs.getInt("FLEXIBLE_PERCENT", 0);
+        //get data from sharedPreferences and save to global variables
+        getPreferences();
 
         //Set the total amount spent under flexible expenditure
         totalSpent = setTotalSpent();
 
         //calculate monthly data
-        double monthlyIncomeDoub = monthlyIncome;
-        double flexiblePercentDoub = flexiblePercent;
-        double percentDecimal = flexiblePercentDoub/100.0;
-        totalToSpend = monthlyIncomeDoub*percentDecimal;
-        double totalRemaining = totalToSpend - totalSpent;
-        //Format double to the 2nd decimal point and take the floor
-        DecimalFormat df = new DecimalFormat("#0.00");
-        df.setRoundingMode(RoundingMode.DOWN);
-
+        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, totalSpent);
         //Show total remaining to screen
-        totalRemainingText.setText(String.valueOf(df.format(totalRemaining)));
+        totalRemainingText.setText(monthlyAmountRemaining);
 
 
         toSetPreferences();
@@ -125,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         double flexibleDouble = ParserHelper.parseDouble(flexibleText);
 
                         //if parsing was successful, flexibleDouble will not equal 0 and we can add data
-                        if(flexibleDouble!=0){
+                        if (flexibleDouble != 0) {
                             //put data into parse database
                             ParseHelper.putFlexibleExpenditure(flexibleDouble, editFlexibleDetails.getText().toString());
 
@@ -141,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
                         }
                         //else data is invalid and will not be inserted
-                        else{
+                        else {
                             Toast.makeText(MainActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
                             Log.d(TAG, "Unable to parse user input");
                         }
@@ -157,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, ManageData.class);
-                        startActivity(i);
+                        //Intent i = new Intent(MainActivity.this, ManageData.class);
+                        startActivity(new Intent(MainActivity.this, ManageData.class));
                     }
                 }
         );
@@ -187,44 +166,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //returns the total amount of flexible expenditure spent
-    public double setTotalSpent() {
-        //Query Parse Expenditure table for all data where the category = Flexible_Expenditure
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
-        query.whereEqualTo("category", "Flexible_Expenditure");
-        //returns query as an array
-        query.selectKeys(Arrays.asList("amount"));
-        double total = 0;
-        try {
-            List<ParseObject> results = query.find();
-            double amount;
-            //loops through array and adds each amount to the total
-            for(ParseObject result: results){
-                amount = result.getDouble("amount");
-                total += amount;
-            }
-        } catch (ParseException e) {
+    private double setTotalSpent() {
+        double expenses = ParseHelper.getFlexibleExpenditure();
+        if(expenses == 0) {
             Toast.makeText(MainActivity.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
-            Log.e(TAG, "unable to query data from the parse database", e);
+            return expenses;
         }
-        return total;
+        else{
+          return expenses;
+        }
+
     }
 
-    public double getFlexibleAmount(){
-        String flexibleText = editFlexibleAmount.getText().toString();
-        double flexibleDouble = 0;
-        //Convert flexible amount in string format to double format
-        try{
-            flexibleDouble = Double.parseDouble(flexibleText);
-        }catch(NumberFormatException e){
-            Toast.makeText(MainActivity.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
-            Log.e(TAG, "unable to parse double flexibleText", e);
-        }
-        return flexibleDouble;
+    private void getPreferences(){
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        monthlyIncome = prefs.getInt("MONTHLY_INCOME", 0);
+        fixedPercent = prefs.getInt("FIXED_PERCENT", 0);
+        savingsPercent = prefs.getInt("SAVINGS_PERCENT", 0);
+        flexiblePercent = prefs.getInt("FLEXIBLE_PERCENT", 0);
     }
 
-    public String getFlexibleDetails(){
-        String details = editFlexibleDetails.getText().toString();
-        return details;
-    }
 
 }
