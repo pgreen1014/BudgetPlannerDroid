@@ -52,28 +52,17 @@ public class SetPreferences extends AppCompatActivity {
                         String savingsText = editSavingsPercent.getText().toString();
                         String flexibleText = editFlexiblePercent.getText().toString();
 
-                        //If user input a value for Monthly Income
-                        if (income != null) {
-                            //Parse monthlyIncome to global int
-                            monthlyIncome = ParserHelper.parseInt(income);
-                        }
+                        //Parse monthlyIncome to global int
+                        monthlyIncome = ParserHelper.parseInt(income);
 
-                        //If user input values to all percentage fields
-                        if (fixedText != null && savingsText != null && flexibleText != null) {
-                            //Parse editFixedPercent and set to fixedPercent
-                            fixedPercent = ParserHelper.parseInt(fixedText);
+                        //Parse editFixedPercent and set to fixedPercent
+                        fixedPercent = ParserHelper.parseInt(fixedText);
 
-                            //Parse editSavingsPercent and set to savingsPercent
-                            savingsPercent = ParserHelper.parseInt(savingsText);
+                        //Parse editSavingsPercent and set to savingsPercent
+                        savingsPercent = ParserHelper.parseInt(savingsText);
 
-                            //Parse flexibleText and set to flexiblePercent
-                            flexiblePercent = ParserHelper.parseInt(flexibleText);
-
-                        } else {
-                            Toast.makeText(SetPreferences.this, "Fields Were Left Blank", Toast.LENGTH_LONG).show();
-                            Log.d(TAG, "User did not input values for all fields");
-                            return;
-                        }
+                        //Parse flexibleText and set to flexiblePercent
+                        flexiblePercent = ParserHelper.parseInt(flexibleText);
 
                         //If percent values were valid by equaling 100, put data into shared preferences and return to MainActivity
                         if (fixedPercent + savingsPercent + flexiblePercent == 100) {
@@ -84,6 +73,7 @@ public class SetPreferences extends AppCompatActivity {
                             startActivity(new Intent(SetPreferences.this, MainActivity.class));
                         } else {
                             Toast.makeText(SetPreferences.this, "Percentages Do Not Equal 100", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "Invalid user input");
                         }
 
                     }
@@ -102,7 +92,7 @@ public class SetPreferences extends AppCompatActivity {
         editor.putInt("FIXED_PERCENT", fixedPercent);
         editor.putInt("SAVINGS_PERCENT", savingsPercent);
         editor.putInt("FLEXIBLE_PERCENT", flexiblePercent);
-        
+
         //commit preferences to file
         editor.commit();
     }
