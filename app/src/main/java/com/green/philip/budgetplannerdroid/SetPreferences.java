@@ -100,8 +100,8 @@ public class SetPreferences extends AppCompatActivity {
                             editor.putInt("FLEXIBLE_PERCENT", flexiblePercent);
                             editor.commit();
 
-                            Intent i = new Intent(SetPreferences.this, MainActivity.class);
-                            startActivity(i);
+                            //return user to MainActivity
+                            startActivity(new Intent(SetPreferences.this, MainActivity.class));
                         }
                         else{
                             Toast.makeText(SetPreferences.this, "Pecentages Do Not Equal 100", Toast.LENGTH_LONG).show();

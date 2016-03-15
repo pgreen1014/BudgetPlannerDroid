@@ -32,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String parseCategory = "Flexible_Expenditure";
 
-    double monthlyIncome;
-    double flexiblePercent;
-    double totalSpent;
+    private static double monthlyIncome;
+    private static double flexiblePercent;
+    private static double totalSpent;
 
 
     @Override
@@ -59,11 +59,8 @@ public class MainActivity extends AppCompatActivity {
         //get data from sharedPreferences and save to global variables
         getPreferences();
 
-        //Set the total amount spent under flexible expenditure
-        totalSpent = setTotalSpent();
-
         //calculate monthly data
-        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, totalSpent);
+        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, setTotalSpent());
         //Show total remaining to screen
         totalRemainingText.setText(monthlyAmountRemaining);
 

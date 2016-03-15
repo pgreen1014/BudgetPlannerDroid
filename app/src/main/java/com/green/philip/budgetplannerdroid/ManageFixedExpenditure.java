@@ -38,6 +38,10 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     private static final String TAG = "ManageFixedExpenditure";
     private static final String parseCategory = "Fixed_Expenditure";
 
+    private static double monthlyIncome;
+    private static double fixedPercent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,22 +57,12 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         btnReturn = (Button)findViewById(R.id.button_returnToManageData);
 
         //get data from sharedPreferences
-        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        int monthlyIncome = prefs.getInt("MONTHLY_INCOME", 0);
-        int fixedPercent = prefs.getInt("FIXED_PERCENT", 0);
+        getPreferences();
 
         //Calculate monthly fixed data
-        double monthlyIncomeDoub = monthlyIncome;
-        double fixedPercentDoub = fixedPercent;
-        double percentDecimal = fixedPercentDoub/100.0;
-        totalToSpend = monthlyIncomeDoub*percentDecimal;
-        double totalSpent = setTotalSpent();
-        totalRemaining = totalToSpend - totalSpent;
-        //Format double to the 2nd decimal point and take the floor
-        DecimalFormat df = new DecimalFormat("#0.00");
-        df.setRoundingMode(RoundingMode.DOWN);
+        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, fixedPercent, setTotalSpent());
 
-        totalRemainingFixedExpenditure.setText(df.format(totalRemaining));
+        totalRemainingFixedExpenditure.setText(monthlyAmountRemaining);
 
         addData();
         returnToManageData();
@@ -129,6 +123,17 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         else{
             return expenses;
         }
+    }
+
+    //gets user finance preferences and saves to global variables
+    private void getPreferences() {
+        //initialized shared preferences object
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        //retrieve shared preferences
+        monthlyIncome = prefs.getInt("MONTHLY_INCOME", 0);
+        int percent = prefs.getInt("FIXED_PERCENT", 0);
+        //convert percent to decimal form
+        fixedPercent = percent/100.0;
     }
 
 }
