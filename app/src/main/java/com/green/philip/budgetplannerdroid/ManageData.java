@@ -26,6 +26,9 @@ import com.parse.ParseQuery;
 import java.util.HashMap;
 import java.util.List;
 
+import helperClasses.ParseHelper;
+import helperClasses.ParserHelper;
+
 public class ManageData extends AppCompatActivity {
     EditText editID;
     Button btnViewData;
@@ -122,39 +125,37 @@ public class ManageData extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        StringBuffer buffer = new StringBuffer();
-                        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("Expenditure");
+                        //Initialize StringBuffer object
+                        StringBuilder sb = new StringBuilder();
 
-                        //assigns value of count as key to the object id in HashMap id
+                        //query Parse for all data and save as a list of ParseObjects
+                        List<ParseObject> results = ParseHelper.getAllData();
+
                         int count = 1;
-                        try {
-                            //run query in synchronous task
-                            List<ParseObject> results = flexibleQuery.find();
-                            //loop through query
-                            for(ParseObject result: results) {
-                                //get id of object
-                                String objectID = result.getObjectId();
-                                //assign value of count as key to object id in HashMap id
-                                id.put(count, objectID);
-                                //get remaining object data
-                                String amount = String.valueOf(result.getDouble("amount"));
-                                String details = result.getString("details");
-                                String category = result.getString("category");
-                                //append data to StringBuffer buffer
-                                buffer.append("ID: " + count + "\n");
-                                buffer.append("Amount: " + amount + "\n");
-                                buffer.append("Details: " + details + "\n");
-                                buffer.append("Category: " + category + "\n" + "\n");
-                                count ++;
-                            }
-                        } catch (ParseException e) {
-                            //if no data is found or there is another error, else statement below will notify the user
-                            Log.e(TAG, "Unable to query data from the parse database", e);
+                        for(ParseObject result: results) {
+                            //get id of object
+                            String objectID = result.getObjectId();
+                            //assign value of count as key to object id in HashMap id
+                            id.put(count, objectID);
+
+                            //get remaining object data
+                            String amount = String.valueOf(result.getDouble("amount"));
+                            String details = result.getString("details");
+                            String category = result.getString("category");
+
+                            //append data to StringBuffer buffer
+                            sb.append("ID: ").append(count).append("\n");
+                            sb.append("Amount: ").append(amount).append("\n");
+                            sb.append("Details: ").append(details).append("\n");
+                            sb.append("Category: ").append(category).append("\n").append("\n");
+
+                            //increment count
+                            count ++;
                         }
-                        //convert StringBuffer to string
-                        String message = buffer.toString();
+                        //convert StringBuilder to string
+                        String message = sb.toString();
                         //if StringBuffer is not empty print data to screen
-                        if(message.isEmpty() == false){
+                        if(!message.isEmpty()){
                             showMessage("Data", message);
                         }
                         else{
@@ -173,36 +174,19 @@ public class ManageData extends AppCompatActivity {
                     public void onClick(View v) {
                         //get id input from editID
                         String inputValue = editID.getText().toString();
-                        //initialize key to hold the id input
-                        int key = 0;
-                        try{
-                            key = Integer.parseInt(inputValue);
-                        }catch(NumberFormatException e){
-                            //ouputs an message to the user in the else statement below
-                            Log.e(TAG, "Unable to parse editID", e);
-                        }
+
+                        //Parse inputValue to int
+                        int key = ParserHelper.parseInt(inputValue);
+
                         //if there was an input
                         if(key != 0){
-                            //query the data in asynchronous task
-                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
-                            query.getInBackground(id.get(key), new GetCallback<ParseObject>() {
-                                @Override
-                                public void done(ParseObject object, ParseException e) {
-                                    if (e == null) {
-                                        //delete object in background
-                                        object.deleteInBackground();
-                                        Toast.makeText(ManageData.this, "Query Successful", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(ManageData.this, "Query Failed", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
+                           ParseHelper.deleteObject(id.get(key));
+                            Toast.makeText(ManageData.this, "Data Deleted", Toast.LENGTH_LONG).show();
                         }
                         else{
                             Toast.makeText(ManageData.this, "Invalid Input", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "unable to delete object based on user id input");
                         }
-
-
 
                     }
                 }
@@ -215,31 +199,9 @@ public class ManageData extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                if(e == null){
-                                    //counts how many objects were deleted
-                                    int count = 0;
-                                    for(ParseObject object: objects){
-                                        object.deleteInBackground();
-                                        count++;
-                                    }
-                                    if(count > 0){
-                                        Toast.makeText(ManageData.this, Integer.toString(count) + " Expenses Deleted", Toast.LENGTH_LONG).show();
-                                    }
-                                    else{
-                                        Toast.makeText(ManageData.this, "Data not Deleted", Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                                else{
-                                    Toast.makeText(ManageData.this, "No Data Found", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-
+                        //Delete all data asynchronously
+                        ParseHelper.deleteAllData();
+                        Toast.makeText(ManageData.this, "All Data Deleted", Toast.LENGTH_LONG).show();
                     }
                 }
         );
@@ -251,8 +213,7 @@ public class ManageData extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(ManageData.this, ManageFixedExpenditure.class);
-                        startActivity(i);
+                        startActivity(new Intent(ManageData.this, ManageFixedExpenditure.class));
                     }
                 }
         );
@@ -264,8 +225,7 @@ public class ManageData extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(ManageData.this, MainActivity.class);
-                        startActivity(i);
+                        startActivity(new Intent(ManageData.this, MainActivity.class));
                     }
                 }
         );

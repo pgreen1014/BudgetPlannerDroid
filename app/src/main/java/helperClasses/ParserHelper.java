@@ -21,4 +21,17 @@ public class ParserHelper {
 
         return result;
     }
+
+    public static int parseInt(String text){
+        //Initialize integer;
+        int result = 0;
+
+        try{
+            result = Integer.parseInt(text);
+        } catch(NumberFormatException e){
+            Log.e(TAG, "unable to parse int text", e);
+        }
+
+        return result;
+    }
 }

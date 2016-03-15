@@ -1,11 +1,15 @@
 package helperClasses;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,6 +56,92 @@ public class ParseHelper {
         }
         return total;
     }
+
+    //Returns a list of all ParseObjects, runs synchronously
+    public static List<ParseObject> getAllData(){
+        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("Expenditure");
+
+        //Initialize ArrayList object of ParseObjects
+        List<ParseObject> results = new ArrayList<>();
+
+        //Try to query Parse and save data to List results
+        try {
+            results = flexibleQuery.find();
+        } catch (ParseException e){
+            Log.e(TAG, "Unable to query data from the parse database", e);
+        }
+
+        return results;
+    }
+
+    //Delete a single ParseObject from Parse in an asynchronous task via object's key value
+    public static void deleteObject(String key){
+        //Initialize ParseQuery object
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
+
+        //retrieve object in asynchronous task
+        query.getInBackground(key, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    //delete object in background
+                    object.deleteInBackground();
+                } else {
+                    Log.e(TAG, "Unable to retrieve data from Parse for deletion", e);
+                }
+            }
+        });
+
+    }
+
+    //deletes all data from Parse database asynchronously
+    public static void deleteAllData(){
+        //Initialize ParseQuery object
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                //if no error in retrieve objects
+                if(e == null){
+                    for(ParseObject object: objects){
+                        //delete object
+                        object.deleteInBackground();
+                    }
+                }
+                else{
+                    Log.e(TAG, "Unable to retrieve data from Parse for deletion", e);
+                }
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
