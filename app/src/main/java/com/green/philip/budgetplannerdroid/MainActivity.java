@@ -166,9 +166,13 @@ public class MainActivity extends AppCompatActivity {
 
     //returns the total amount of flexible expenditure spent
     private double setTotalSpent() {
-        double expenses = ParseHelper.getFlexibleExpenditure();
+        //query Parse for total spent in Flexible_Expenditure category and save to expenses
+        double expenses = ParseHelper.getExpenditure("Flexible_Expenditure");
+
+        //if total expense returned is 0 inform user that no data was retrieved
         if(expenses == 0) {
             Toast.makeText(MainActivity.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "no data retrieved from Parse server");
             return expenses;
         }
         else{

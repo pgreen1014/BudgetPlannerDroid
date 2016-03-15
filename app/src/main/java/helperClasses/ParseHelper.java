@@ -33,11 +33,12 @@ public class ParseHelper {
         data.saveInBackground();
     }
 
-    //retrieves and returns Flexible_Expenditure data from Parse synchronously
-    public static double getFlexibleExpenditure(){
-        //Query Parse Expenditure table for all data where the category = Flexible_Expenditure
+    //retrieves and returns total spent in a certain expenditure category from Parse synchronously
+    //Categories: 'Flexible_Expenditure' or 'Fixed_Expenditure'
+    public static double getExpenditure(String category) {
+        //Query Parse Expenditure table for all data in the given category input
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
-        query.whereEqualTo("category", "Flexible_Expenditure");
+        query.whereEqualTo("category", category);
 
         //returns query as an array
         query.selectKeys(Arrays.asList("amount"));

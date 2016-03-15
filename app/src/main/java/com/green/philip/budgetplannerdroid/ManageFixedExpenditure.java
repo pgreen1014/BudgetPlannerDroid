@@ -24,6 +24,8 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import helperClasses.ParseHelper;
+
 public class ManageFixedExpenditure extends AppCompatActivity {
     EditText editFixedAmount, editFixedDetails;
     TextView totalRemainingFixedExpenditure;
@@ -118,26 +120,17 @@ public class ManageFixedExpenditure extends AppCompatActivity {
 
     //returns total amount of fixed expenditure spent
     public double setTotalSpent() {
-        //initialize query and constrain where category = Fixed_Expenditure
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Expenditure");
-        query.whereEqualTo("category", "Fixed_Expenditure");
-        //gets data as an array
-        query.selectKeys(Arrays.asList("amount"));
-        double total = 0;
-        try {
-            //run synchronous query
-            List<ParseObject> results = query.find();
-            double amount;
-            //loop through array result and calculate total spent
-            for(ParseObject result: results){
-                amount = result.getDouble("amount");
-                total += amount;
-            }
-        } catch (ParseException e) {
-            Toast.makeText(ManageFixedExpenditure.this, "Unable to Retrieve Data From Server", Toast.LENGTH_LONG).show();
-            Log.e(TAG, "Unable to query data from parse database", e);
+
+        double expenses = ParseHelper.getExpenditure("Fixed_Expenditure");
+
+        if(expenses == 0) {
+            Toast.makeText(ManageFixedExpenditure.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "no data retrieved from Parse server");
+            return expenses;
         }
-        return total;
+        else{
+            return expenses;
+        }
     }
 
 }
