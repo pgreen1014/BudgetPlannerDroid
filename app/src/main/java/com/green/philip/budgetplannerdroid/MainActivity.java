@@ -29,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
     Button btnAddFlexibleData;
     Button btnToSetPreferences;
     Button btnManageData;
-    private final static String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
+    private static final String parseCategory = "Flexible_Expenditure";
 
     double monthlyIncome;
     double flexiblePercent;
-
     double totalSpent;
 
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         //if parsing was successful, flexibleDouble will not equal 0 and we can add data
                         if (flexibleDouble != 0) {
                             //put data into parse database
-                            ParseHelper.putFlexibleExpenditure(flexibleDouble, editFlexibleDetails.getText().toString());
+                            ParseHelper.putExpenditure(parseCategory, flexibleDouble, editFlexibleDetails.getText().toString());
 
                             //calculate total remaining to spend and parse to double
                             String text = String.valueOf(totalRemainingText.getText());

@@ -14,7 +14,7 @@ public class FinanceDataHelper {
         return total - amount;
     }
 
-    //returns amount remaint to spend for the month on startup
+    //returns amount remaining to spend for the month on startup
     public static String setMonthlyExpense(double income, double percent, double amountSpent){
         double monthlyIncome = income;
 

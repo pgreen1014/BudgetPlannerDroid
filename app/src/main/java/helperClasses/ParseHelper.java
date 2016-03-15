@@ -19,13 +19,13 @@ import java.util.List;
 public class ParseHelper {
     private static final String TAG = "ParseHelper.java";
 
-    //puts data into the Parse database where the Category field = Flexible_Expenditure
-    public static void putFlexibleExpenditure(double amount, String details){
+    //puts data into the Parse database
+    public static void putExpenditure(String category, double amount, String details){
         //Initialize Parse Object
         ParseObject data = new ParseObject("Expenditure");
 
         //put data into the data ParseObject
-        data.put("category", "Flexible_Expenditure");
+        data.put("category", category);
         data.put("amount", amount);
         data.put("details", details);
 

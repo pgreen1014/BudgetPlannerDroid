@@ -24,7 +24,9 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
+import helperClasses.ParserHelper;
 
 public class ManageFixedExpenditure extends AppCompatActivity {
     EditText editFixedAmount, editFixedDetails;
@@ -33,7 +35,8 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     Button btnReturn;
     double totalToSpend;
     double totalRemaining;
-    private final static String TAG = "ManageFixedExpenditure";
+    private static final String TAG = "ManageFixedExpenditure";
+    private static final String parseCategory = "Fixed_Expenditure";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,22 +82,18 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                     public void onClick(View v) {
                         //initialize parse object
                         ParseObject data = new ParseObject("Expenditure");
-                        //get fixed amount and save to double
-                        String fixedText = editFixedAmount.getText().toString();
-                        double fixedDouble = 0;
-                        try {
-                            fixedDouble = Double.parseDouble(fixedText);
-                        } catch(NumberFormatException e){
-                            Toast.makeText(ManageFixedExpenditure.this, "Invalid Dollar Amount", Toast.LENGTH_LONG).show();
-                            Log.e(TAG, "unable to parse editFixedAmount", e);
-                        }
+                        //parse editFixedAmount and save as a double
+                        double fixedExpense = ParserHelper.parseDouble(editFixedAmount.getText().toString());
+
                         //if parsing was successful, fixedDouble will not equal 0 and we can add data
-                        if(fixedDouble != 0){
-                            totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining - fixedDouble));
-                            data.put("category", "Fixed_Expenditure");
-                            data.put("amount", fixedDouble);
-                            data.put("details", editFixedDetails.getText().toString());
-                            data.saveInBackground();
+                        if(fixedExpense != 0){
+                            ParseHelper.putExpenditure(parseCategory, fixedExpense, editFixedDetails.getText().toString());
+
+                            double totalRemaining = FinanceDataHelper.amountRemaining(totalToSpend, setTotalSpent());
+
+                            totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining));
+
+                            Toast.makeText(ManageFixedExpenditure.this, "Data Inserted", Toast.LENGTH_LONG).show();
                         }
                         //else data is invalid and will not be inserted
                         else{
@@ -111,8 +110,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(ManageFixedExpenditure.this, ManageData.class);
-                        startActivity(i);
+                        startActivity(new Intent(ManageFixedExpenditure.this, ManageData.class));
                     }
                 }
         );
