@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,7 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.math.BigDecimal;
+
+import helperClasses.ParserHelper;
 
 
 public class SetPreferences extends AppCompatActivity {
@@ -47,69 +46,65 @@ public class SetPreferences extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //Save user inputs to Strings
+                        String income = editMonthlyIncome.getText().toString();
                         String fixedText = editFixedPercent.getText().toString();
                         String savingsText = editSavingsPercent.getText().toString();
                         String flexibleText = editFlexiblePercent.getText().toString();
 
-                        if(editMonthlyIncome.getText().toString() != null) {
-                            try {
-                                monthlyIncome = Integer.parseInt(editMonthlyIncome.getText().toString());
-                            } catch (NumberFormatException e) {
-                                Toast.makeText(SetPreferences.this, "Invalid Input", Toast.LENGTH_LONG).show();
-                                Log.e(TAG, "Unable to parse editMonthlyIncome input", e);
-                            }
+                        //If user input a value for Monthly Income
+                        if (income != null) {
+                            //Parse monthlyIncome to global int
+                            monthlyIncome = ParserHelper.parseInt(income);
                         }
 
-                        if(fixedText != null && savingsText != null && flexibleText != null){
+                        //If user input values to all percentage fields
+                        if (fixedText != null && savingsText != null && flexibleText != null) {
                             //Parse editFixedPercent and set to fixedPercent
-                            try{
-                                fixedPercent = Integer.parseInt(fixedText);
-                            }
-                            catch(NumberFormatException e){
-                                Toast.makeText(SetPreferences.this, "Invalid Fixed Expenditure Percent Input", Toast.LENGTH_LONG).show();
-                                Log.e(TAG, "Unable to parse fixedText input", e);
-                            }
+                            fixedPercent = ParserHelper.parseInt(fixedText);
+
                             //Parse editSavingsPercent and set to savingsPercent
-                            try{
-                                savingsPercent = Integer.parseInt(savingsText);
-                            }
-                            catch(NumberFormatException e){
-                                Toast.makeText(SetPreferences.this, "Invalid Savings Percent Input", Toast.LENGTH_LONG).show();
-                                Log.e(TAG, "Unable to parse savingsText input", e);
-                            }
+                            savingsPercent = ParserHelper.parseInt(savingsText);
+
                             //Parse flexibleText and set to flexiblePercent
-                            try{
-                                flexiblePercent = Integer.parseInt(flexibleText);
-                            }
-                            catch(NumberFormatException e){
-                                Toast.makeText(SetPreferences.this, "Invalid Flexible Expenditure Percent Input", Toast.LENGTH_LONG).show();
-                                Log.e(TAG, "Unable to parse flexibleText Input", e);
-                            }
-                        }
-                        else{
-                            Toast.makeText(SetPreferences.this, "Error Adding Data", Toast.LENGTH_LONG).show();
+                            flexiblePercent = ParserHelper.parseInt(flexibleText);
+
+                        } else {
+                            Toast.makeText(SetPreferences.this, "Fields Were Left Blank", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "User did not input values for all fields");
                             return;
                         }
-                        if(fixedPercent + savingsPercent + flexiblePercent == 100){
-                            //Toast.makeText(SetPreferences.this, "Data Set", Toast.LENGTH_LONG).show();
-                            SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt("MONTHLY_INCOME", monthlyIncome);
-                            editor.putInt("FIXED_PERCENT", fixedPercent);
-                            editor.putInt("SAVINGS_PERCENT", savingsPercent);
-                            editor.putInt("FLEXIBLE_PERCENT", flexiblePercent);
-                            editor.commit();
+
+                        //If percent values were valid by equaling 100, put data into shared preferences and return to MainActivity
+                        if (fixedPercent + savingsPercent + flexiblePercent == 100) {
+                            //save input to SharedPreferences
+                            setSharedPreferences(monthlyIncome, fixedPercent, savingsPercent, flexiblePercent);
 
                             //return user to MainActivity
                             startActivity(new Intent(SetPreferences.this, MainActivity.class));
-                        }
-                        else{
-                            Toast.makeText(SetPreferences.this, "Pecentages Do Not Equal 100", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(SetPreferences.this, "Percentages Do Not Equal 100", Toast.LENGTH_LONG).show();
                         }
 
                     }
                 }
         );
+    }
+
+    //Method saves user input to SharedPreferences
+    private void setSharedPreferences(int monthlyIncome, int fixedPercent, int savingsPercent, int flexiblePercent) {
+        //Initialize SharedPreferences object and and editor
+        SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        //save user input to editor
+        editor.putInt("MONTHLY_INCOME", monthlyIncome);
+        editor.putInt("FIXED_PERCENT", fixedPercent);
+        editor.putInt("SAVINGS_PERCENT", savingsPercent);
+        editor.putInt("FLEXIBLE_PERCENT", flexiblePercent);
+        
+        //commit preferences to file
+        editor.commit();
     }
 
     //shows current settings saved to SharedPreferences
