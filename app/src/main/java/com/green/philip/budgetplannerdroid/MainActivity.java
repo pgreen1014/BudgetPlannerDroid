@@ -31,10 +31,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnManageData;
     private final static String TAG = "MainActivity";
 
-    int monthlyIncome;
-    int fixedPercent;
-    int savingsPercent;
-    int flexiblePercent;
+    double monthlyIncome;
+    double flexiblePercent;
 
     double totalSpent;
 
@@ -69,12 +67,13 @@ public class MainActivity extends AppCompatActivity {
         //Show total remaining to screen
         totalRemainingText.setText(monthlyAmountRemaining);
 
-
+        //Button Methods
         toSetPreferences();
         addData();
         toManageData();
     }
 
+    //takes user to SetPreferences activity
     public void toSetPreferences(){
         btnToSetPreferences.setOnClickListener(
                 new View.OnClickListener() {
@@ -178,12 +177,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //gets user finance preferences and saves to global variables
     private void getPreferences(){
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         monthlyIncome = prefs.getInt("MONTHLY_INCOME", 0);
-        fixedPercent = prefs.getInt("FIXED_PERCENT", 0);
-        savingsPercent = prefs.getInt("SAVINGS_PERCENT", 0);
-        flexiblePercent = prefs.getInt("FLEXIBLE_PERCENT", 0);
+        int percent = prefs.getInt("FLEXIBLE_PERCENT", 0);
+        //convert Flexible Percent to a double and save to global variable
+        flexiblePercent = percent/100.0;
     }
 
 
