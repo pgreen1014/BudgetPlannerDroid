@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import bolts.Task;
+
 /**
  * Created by Philip on 3/12/2016.
  */
 public class ParseHelper {
     private static final String TAG = "ParseHelper.java";
+    private static final String expenditureClass = "Expenditure";
 
     //puts data into the Parse database
     public static void putExpenditure(String category, double amount, String details){
@@ -33,7 +36,7 @@ public class ParseHelper {
         data.saveInBackground();
     }
 
-    //retrieves and returns total spent in a certain expenditure category from Parse synchronously
+    //retrieves and returns total spent in a certain category of expenditure from Parse synchronously
     //Categories: 'Flexible_Expenditure' or 'Fixed_Expenditure'
     public static double getExpenditure(String category) {
         //Query Parse Expenditure table for all data in the given category input
@@ -60,7 +63,8 @@ public class ParseHelper {
 
     //Returns a list of all ParseObjects, runs synchronously
     public static List<ParseObject> getAllData(){
-        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery("Expenditure");
+        //Initialize ParseQuery object
+        ParseQuery<ParseObject> flexibleQuery = ParseQuery.getQuery(expenditureClass);
 
         //Initialize ArrayList object of ParseObjects
         List<ParseObject> results = new ArrayList<>();
@@ -104,22 +108,18 @@ public class ParseHelper {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 //if no error in retrieve objects
-                if(e == null){
-                    for(ParseObject object: objects){
+                if (e == null) {
+                    for (ParseObject object : objects) {
                         //delete object
                         object.deleteInBackground();
                     }
-                }
-                else{
+                } else {
                     Log.e(TAG, "Unable to retrieve data from Parse for deletion", e);
                 }
             }
         });
 
     }
-
-
-
 
 
 
