@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/amount"
-        android:id="@+id/textView7"
+        android:id="@+id/textView_fixedAmount"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -28,20 +28,22 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/details"
-        android:id="@+id/textView11"
-        android:layout_below="@+id/textView7"
+        android:id="@+id/textView_fixedDetails"
+        android:layout_below="@+id/textView_fixedAmount"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="33dp"
-        android:layout_alignRight="@+id/textView7"
-        android:layout_alignEnd="@+id/textView7" />
+        android:layout_alignRight="@+id/textView_fixedAmount"
+        android:layout_alignEnd="@+id/textView_fixedAmount" />
 
     <EditText
+        android:layout_alignBaseline="@id/textView_fixedDetails"
+        android:layout_alignLeft="@id/editText_fixedExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_fixedDetails"
-        android:layout_alignBottom="@+id/textView11"
-        android:layout_toRightOf="@+id/textView11"
+        android:layout_alignBottom="@+id/textView_fixedDetails"
+        android:layout_toRightOf="@+id/textView_fixedDetails"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -74,12 +76,14 @@
         android:layout_marginBottom="60dp" />
 
     <EditText
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/textView_fixedAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/editText_fixedExpense"
-        android:layout_alignBottom="@+id/textView7"
+        android:layout_alignBottom="@+id/textView_fixedAmount"
         android:layout_alignLeft="@+id/textView12"
         android:layout_alignStart="@+id/textView12" />
 
@@ -100,7 +104,7 @@
         android:text="Large Text"
         android:id="@+id/textView_totalFixedExpenditureRemaining"
         android:layout_alignTop="@+id/textView_remainingFixedExpenditure"
-        android:layout_alignRight="@+id/editText_fixedExpense"
+        android:layout_toRightOf="@id/textView_remainingFixedExpenditure"
         android:layout_alignEnd="@+id/editText_fixedExpense" />
 
 </RelativeLayout>
