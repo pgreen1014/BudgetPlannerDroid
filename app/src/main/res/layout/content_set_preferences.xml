@@ -75,7 +75,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignStart="@+id/editText_percentFlexible"
         android:layout_alignLeft="@+id/editText_percentFlexible"
-        android:layout_toRightOf="@+id/textView_percentFixed"
         android:layout_toEndOf="@+id/textView_percentFixed"
         android:hint="@string/fixedExpenditurePercentHint" />
 
