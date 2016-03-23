@@ -50,9 +50,9 @@
         android:layout_height="wrap_content"
         android:text="@string/addData"
         android:id="@+id/button_addFixedExpense"
-        android:layout_below="@+id/editText_fixedDetails"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp" />
+        android:layout_above="@+id/textView_remainingFixedExpenditure"
+        android:layout_marginBottom="30dp"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
