@@ -104,12 +104,8 @@ public class MainActivity extends AppCompatActivity {
                             //put data into parse database
                             ParseHelper.putExpenditure(parseCategory, flexibleDouble, editFlexibleDetails.getText().toString());
 
-                            //calculate total remaining to spend and parse to double
-                            String text = String.valueOf(totalRemainingText.getText());
-                            double total = ParserHelper.parseDouble(text);
-
-                            //calculate total remaining and set to totalRemainingText
-                            double result = FinanceDataHelper.amountRemaining(total, flexibleDouble);
+                            //calculate new total remaining to spend and show to screen
+                            double result = FinanceDataHelper.returnTotalRemaining(totalRemainingText.getText(), flexibleDouble);
                             totalRemainingText.setText(String.valueOf(result));
 
                             //notify user of successful data insertion

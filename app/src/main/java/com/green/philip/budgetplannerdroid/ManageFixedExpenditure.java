@@ -83,9 +83,9 @@ public class ManageFixedExpenditure extends AppCompatActivity {
                         if(fixedExpense != 0){
                             ParseHelper.putExpenditure(parseCategory, fixedExpense, editFixedDetails.getText().toString());
 
-                            double totalRemaining = FinanceDataHelper.amountRemaining(totalToSpend, setTotalSpent());
-
-                            totalRemainingFixedExpenditure.setText(String.valueOf(totalRemaining));
+                            //calculate new totalRemainingFixedExpenditure and show to screen
+                            double totalExpenditureRemaining = FinanceDataHelper.returnTotalRemaining(totalRemainingFixedExpenditure.getText(), fixedExpense);
+                            totalRemainingFixedExpenditure.setText(String.valueOf(totalExpenditureRemaining));
 
                             Toast.makeText(ManageFixedExpenditure.this, "Data Inserted", Toast.LENGTH_LONG).show();
                         }
@@ -113,7 +113,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     //returns total amount of fixed expenditure spent
     public double setTotalSpent() {
 
-        double expenses = ParseHelper.getExpenditure("Fixed_Expenditure");
+        double expenses = ParseHelper.getExpenditure(parseCategory);
 
         if(expenses == 0) {
             Toast.makeText(ManageFixedExpenditure.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
