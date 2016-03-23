@@ -11,10 +11,10 @@
     <string name="savingsPercent">Savings Percent</string>
     <string name="flexibleExpenditurePercent">Flexible Expenditure Percent</string>
     <string name="saveSettings">Save Settings</string>
-    <string name="monthlyIncomeHint">e.g. 3000</string>
-    <string name="fixedExpenditurePercentHint">e.g. 50</string>
-    <string name="savingsPercentHint">e.g. 20</string>
-    <string name="flexibleExpenditurePercentHint">e.g. 30</string>
+    <string name="monthlyIncomeHint">3000</string>
+    <string name="fixedExpenditurePercentHint">50</string>
+    <string name="savingsPercentHint">20</string>
+    <string name="flexibleExpenditurePercentHint">30</string>
     <string name="setPreferences">Set Preferences</string>
     <string name="amount">Amount</string>
     <string name="details">Details</string>
