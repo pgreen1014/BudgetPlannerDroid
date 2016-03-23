@@ -60,7 +60,7 @@
         android:layout_alignBaseline="@+id/textView_flexibleDetails"
         android:layout_alignBottom="@+id/textView_flexibleDetails"
         android:layout_alignParentRight="true"
-        android:layout_alignLeft="@+id/textView_flexibleExpenditureTitle" />
+        android:layout_alignLeft="@+id/editText_flexibleAmount" />
 
     <Button
         android:layout_width="wrap_content"
@@ -111,8 +111,8 @@
         android:layout_above="@+id/textView_flexibleDetails"
         android:layout_alignBaseline="@+id/textView_flexibleAmount"
         android:layout_alignParentRight="true"
-        android:layout_alignLeft="@+id/textView_flexibleExpenditureTitle"
-        android:layout_alignStart="@+id/textView_flexibleExpenditureTitle" />
+        android:layout_toEndOf="@+id/textView_flexibleAmount"
+        android:layout_toRightOf="@+id/textView_flexibleAmount"/>
 
 </RelativeLayout>
 
