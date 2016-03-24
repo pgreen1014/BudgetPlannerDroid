@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static double monthlyIncome;
     private static double flexiblePercent;
-    private static double totalSpent;
 
 
     @Override
