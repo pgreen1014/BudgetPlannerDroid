@@ -69,7 +69,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     }
 
     //Add fixed expenditure data
-    public void addData(){
+    private void addData(){
         btnAddData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -99,7 +99,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     }
 
     //Takes user to manage data
-    public void returnToManageData(){
+    private void returnToManageData(){
         btnReturn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -111,7 +111,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     }
 
     //returns total amount of fixed expenditure spent
-    public double setTotalSpent() {
+    private double setTotalSpent() {
 
         double expenses = ParseHelper.getExpenditure(parseCategory);
 

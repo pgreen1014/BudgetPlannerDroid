@@ -41,7 +41,7 @@ public class SetPreferences extends AppCompatActivity {
         confirmSettings();
     }
 
-    public void confirmSettings() {
+    private void confirmSettings() {
         btnConfirm.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

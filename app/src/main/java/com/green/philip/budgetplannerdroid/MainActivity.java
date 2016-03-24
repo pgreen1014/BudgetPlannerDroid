@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Adds data to the parse cloud when with the btnAddFlexibleData
     //Need to implement remaining amount into addDataCloud()
-    public void addData(){
+    private void addData(){
         btnAddFlexibleData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Changes to ManageData Activity
-    public void toManageData(){
+    private void toManageData(){
         btnManageData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

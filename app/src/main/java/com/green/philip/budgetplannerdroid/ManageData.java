@@ -115,7 +115,7 @@ public class ManageData extends AppCompatActivity {
     }
 
     //View Parse data in syncTask --> needs to run in a background task
-    public void viewData(){
+    private void viewData(){
         btnViewData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -162,7 +162,7 @@ public class ManageData extends AppCompatActivity {
     }
 
     //Delete data by id
-    public void deleteData(){
+    private void deleteData(){
         btnDeleteData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -189,7 +189,7 @@ public class ManageData extends AppCompatActivity {
     }
 
     //Delete all data in AsyncTask
-    public void deleteAllData(){
+    private void deleteAllData(){
         btnDeleteAllData.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -203,7 +203,7 @@ public class ManageData extends AppCompatActivity {
     }
 
     //Takes user to MangeFixedExpenditure activity
-    public void toManageFixedExpenditure(){
+    private void toManageFixedExpenditure(){
         btnFixedExpenditure.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -215,7 +215,7 @@ public class ManageData extends AppCompatActivity {
     }
 
     //Takes user to MainMenu
-    public void toMainMenu(){
+    private void toMainMenu(){
         btnReturnToMain.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -227,7 +227,7 @@ public class ManageData extends AppCompatActivity {
     }
 
     //shows message to screen
-    public void showMessage(String title, String message) {
+    private void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);
