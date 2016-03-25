@@ -32,7 +32,7 @@ public class FinanceDataHelper {
         return result;
     }
 
-    //returns the monthly amount remaining to spend after data was added to the Parse database
+    //returns the monthly amount remaining to spend after user added data to the Parse database
     public static double returnTotalRemaining(CharSequence amountRemaining, double expense){
         //Convert CharSequence amountRemaining to a String and Parse to double
         String cs = amountRemaining.toString();
