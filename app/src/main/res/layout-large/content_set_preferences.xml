@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.green.philip.budgetplannerdroid.SetPreferences"
+    tools:showIn="@layout/activity_set_preferences">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/monthlyIncome"
+        android:id="@+id/textView_monthlyIncome"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/fixedExpenditurePercent"
+        android:id="@+id/textView_percentFixed"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/textView_monthlyIncome" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/savingsPercent"
+        android:id="@+id/textView_percentSavings"
+        android:layout_below="@+id/textView_percentFixed"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/flexibleExpenditurePercent"
+        android:id="@+id/textView_percentFlexible"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saveSettings"
+        android:id="@+id/button_confirmSettings"
+        android:layout_marginTop="78dp"
+        android:layout_below="@+id/textView_percentFlexible"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText_percentFixed"
+        android:layout_alignBaseline="@+id/textView_percentFixed"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@+id/editText_percentFlexible"
+        android:layout_alignLeft="@+id/editText_percentFlexible"
+        android:layout_toEndOf="@+id/textView_percentFixed"
+        android:hint="@string/fixedExpenditurePercentHint" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText_percentSavings"
+        android:layout_alignBaseline="@+id/textView_percentSavings"
+        android:layout_alignParentRight="true"
+        android:layout_alignLeft="@+id/editText_percentFlexible"
+        android:layout_alignStart="@+id/editText_percentFlexible"
+        android:hint="@string/savingsPercentHint"
+        android:layout_alignRight="@+id/button_confirmSettings"
+        android:layout_alignEnd="@+id/button_confirmSettings" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText_percentFlexible"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/textView_percentFlexible"
+        android:layout_toRightOf="@+id/textView_percentFlexible"
+        android:layout_toEndOf="@+id/textView_percentFlexible"
+        android:hint="@string/flexibleExpenditurePercentHint" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editText_setMonthlyIncome"
+        android:layout_above="@+id/textView_percentFixed"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/textView_monthlyIncome"
+        android:layout_toRightOf="@+id/textView_monthlyIncome"
+        android:layout_toEndOf="@+id/textView_monthlyIncome"
+        android:hint="@string/monthlyIncomeHint" />
+</RelativeLayout>

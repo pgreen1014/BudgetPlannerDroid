@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.green.philip.budgetplannerdroid.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setPreferences"
+        android:id="@+id/button_toPreferences"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="57dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/amount"
+        android:id="@+id/textView_flexibleAmount"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/textView_flexibleExpenditureTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/details"
+        android:id="@+id/textView_flexibleDetails"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/textView_flexibleAmount"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/mainActivityTitle"
+        android:id="@+id/textView_flexibleExpenditureTitle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText_flexibleDetails"
+        android:layout_alignBaseline="@+id/textView_flexibleDetails"
+        android:layout_alignBottom="@+id/textView_flexibleDetails"
+        android:layout_alignParentRight="true"
+        android:layout_alignLeft="@+id/editText_flexibleAmount" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addData"
+        android:id="@+id/button_addFlexibleData"
+        android:layout_below="@+id/editText_flexibleDetails"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textView_totalRemaining"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/textView_flexibleRemainingAmount"
+        android:layout_toEndOf="@+id/textView_flexibleRemainingAmount"
+        android:layout_alignBaseline="@+id/textView_flexibleRemainingAmount"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/manageData"
+        android:id="@+id/button_manageData"
+        android:layout_alignTop="@+id/button_toPreferences"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/remainingAmount"
+        android:id="@+id/textView_flexibleRemainingAmount"
+        android:layout_alignTop="@+id/button_addFlexibleData"
+        android:layout_marginTop="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editText_flexibleAmount"
+        android:layout_above="@+id/textView_flexibleDetails"
+        android:layout_alignBaseline="@+id/textView_flexibleAmount"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/textView_flexibleAmount"
+        android:layout_toRightOf="@+id/textView_flexibleAmount"/>
+
+</RelativeLayout>
+
