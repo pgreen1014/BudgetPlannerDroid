@@ -115,5 +115,7 @@
         android:layout_alignBaseline="@+id/textView_monthlyIncome"
         android:layout_toRightOf="@+id/textView_monthlyIncome"
         android:layout_toEndOf="@+id/textView_monthlyIncome"
+        android:layout_alignLeft="@+id/editText_percentFlexible"
+        android:layout_alignStart="@+id/editText_percentFlexible"
         android:hint="@string/monthlyIncomeHint" />
 </RelativeLayout>
