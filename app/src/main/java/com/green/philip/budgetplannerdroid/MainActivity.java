@@ -19,16 +19,19 @@ import android.widget.Toast;
 
 import com.parse.ParseObject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
 
 public class MainActivity extends AppCompatActivity {
-    EditText editFlexibleAmount, editFlexibleDetails;
-    TextView totalRemainingText;
-    Button btnAddFlexibleData;
-    Button btnToSetPreferences;
-    Button btnManageData;
+    @Bind(R.id.editText_flexibleAmount) EditText editFlexibleAmount;
+    @Bind(R.id.editText_flexibleDetails) EditText editFlexibleDetails;
+    @Bind(R.id.textView_totalRemaining) TextView totalRemainingText;
+    @Bind(R.id.button_addFlexibleData) Button btnAddFlexibleData;
+    @Bind(R.id.button_toPreferences) Button btnToSetPreferences;
+    @Bind(R.id.button_manageData) Button btnManageData;
     private static final String TAG = "MainActivity";
     private static final String parseCategory = "Flexible_Expenditure";
 
@@ -42,19 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //Cast editable texts
-        editFlexibleAmount = (EditText)findViewById(R.id.editText_flexibleAmount);
-        editFlexibleDetails = (EditText)findViewById(R.id.editText_flexibleDetails);
-
-
-        //Cast TextView
-        totalRemainingText = (TextView)findViewById(R.id.textView_totalRemaining);
-
-        //Cast Buttons
-        btnAddFlexibleData = (Button)findViewById(R.id.button_addFlexibleData);
-        btnToSetPreferences = (Button)findViewById(R.id.button_toPreferences);
-        btnManageData = (Button)findViewById(R.id.button_manageData);
+        ButterKnife.bind(this);
 
         //get data from sharedPreferences and save to global variables
         getPreferences();
