@@ -21,6 +21,7 @@ import com.parse.ParseObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
@@ -30,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.editText_flexibleAmount) EditText editFlexibleAmount;
     @Bind(R.id.editText_flexibleDetails) EditText editFlexibleDetails;
     @Bind(R.id.textView_totalRemaining) TextView totalRemainingText;
-    @Bind(R.id.button_addFlexibleData) Button btnAddFlexibleData;
-    @Bind(R.id.button_toPreferences) Button btnToSetPreferences;
-    @Bind(R.id.button_manageData) Button btnManageData;
     //Declare global fields
     private static final String TAG = "MainActivity";
     private static final String parseCategory = "Flexible_Expenditure";
@@ -55,76 +53,47 @@ public class MainActivity extends AppCompatActivity {
         String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, setTotalSpent());
         //Show total remaining to screen
         totalRemainingText.setText(monthlyAmountRemaining);
-
-        //Button Methods
-        toSetPreferences();
-        addData();
-        toManageData();
     }
 
     //takes user to SetPreferences activity
-    public void toSetPreferences(){
-        btnToSetPreferences.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, SetPreferences.class);
-                        startActivity(i);
-                    }
-                }
-        );
+    @OnClick(R.id.button_toPreferences) protected void toSetPreferences(){
+        startActivity(new Intent(MainActivity.this, SetPreferences.class));
     }
 
     //Adds data to the parse cloud when with the btnAddFlexibleData
     //Need to implement remaining amount into addDataCloud()
-    private void addData(){
-        btnAddFlexibleData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Initialize ParseObject
-                        ParseObject data = new ParseObject("Expenditure");
+    @OnClick(R.id.button_addFlexibleData) protected void addData(){
+        //Initialize ParseObject
+        ParseObject data = new ParseObject("Expenditure");
 
-                        //Get Flexible amount and save to string
-                        String flexibleText = editFlexibleAmount.getText().toString();
+        //Get Flexible amount and save to string
+        String flexibleText = editFlexibleAmount.getText().toString();
 
-                        //Parse flexibleText and save to double
-                        double flexibleDouble = ParserHelper.parseDouble(flexibleText);
+        //Parse flexibleText and save to double
+        double flexibleDouble = ParserHelper.parseDouble(flexibleText);
 
-                        //if parsing was successful, flexibleDouble will not equal 0 and we can add data
-                        if (flexibleDouble != 0) {
-                            //put data into parse database
-                            ParseHelper.putExpenditure(parseCategory, flexibleDouble, editFlexibleDetails.getText().toString());
+        //if parsing was successful, flexibleDouble will not equal 0 and we can add data
+        if (flexibleDouble != 0) {
+            //put data into parse database
+            ParseHelper.putExpenditure(parseCategory, flexibleDouble, editFlexibleDetails.getText().toString());
 
-                            //calculate new total remaining to spend and show to screen
-                            double result = FinanceDataHelper.returnTotalRemaining(totalRemainingText.getText(), flexibleDouble);
-                            totalRemainingText.setText(String.valueOf(result));
+            //calculate new total remaining to spend and show to screen
+            double result = FinanceDataHelper.returnTotalRemaining(totalRemainingText.getText(), flexibleDouble);
+            totalRemainingText.setText(String.valueOf(result));
 
-                            //notify user of successful data insertion
-                            Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
-                        }
-                        //else data is invalid and will not be inserted
-                        else {
-                            Toast.makeText(MainActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
-                            Log.d(TAG, "Unable to parse user input");
-                        }
-
-                    }
-                }
-        );
+            //notify user of successful data insertion
+            Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
+        }
+        //else data is invalid and will not be inserted
+        else {
+            Toast.makeText(MainActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Unable to parse user input");
+        }
     }
 
     //Changes to ManageData Activity
-    private void toManageData(){
-        btnManageData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Intent i = new Intent(MainActivity.this, ManageData.class);
-                        startActivity(new Intent(MainActivity.this, ManageData.class));
-                    }
-                }
-        );
+    @OnClick(R.id.button_manageData) protected void toManageData(){
+        startActivity(new Intent(MainActivity.this, ManageData.class));
     }
 
     @Override
