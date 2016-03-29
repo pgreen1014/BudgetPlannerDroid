@@ -26,15 +26,16 @@ import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
 
 public class MainActivity extends AppCompatActivity {
+    //Bind Views
     @Bind(R.id.editText_flexibleAmount) EditText editFlexibleAmount;
     @Bind(R.id.editText_flexibleDetails) EditText editFlexibleDetails;
     @Bind(R.id.textView_totalRemaining) TextView totalRemainingText;
     @Bind(R.id.button_addFlexibleData) Button btnAddFlexibleData;
     @Bind(R.id.button_toPreferences) Button btnToSetPreferences;
     @Bind(R.id.button_manageData) Button btnManageData;
+    //Declare global fields
     private static final String TAG = "MainActivity";
     private static final String parseCategory = "Flexible_Expenditure";
-
     private static double monthlyIncome;
     private static double flexiblePercent;
 
