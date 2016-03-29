@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         editFlexibleAmount = (EditText)findViewById(R.id.editText_flexibleAmount);
         editFlexibleDetails = (EditText)findViewById(R.id.editText_flexibleDetails);
 
+
         //Cast TextView
         totalRemainingText = (TextView)findViewById(R.id.textView_totalRemaining);
 
