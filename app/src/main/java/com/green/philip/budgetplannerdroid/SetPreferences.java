@@ -13,11 +13,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import helperClasses.ParserHelper;
 
 
 public class SetPreferences extends AppCompatActivity {
-    EditText editMonthlyIncome, editFixedPercent, editSavingsPercent, editFlexiblePercent;
+    @Bind(R.id.editText_setMonthlyIncome) EditText editMonthlyIncome;
+    @Bind(R.id.editText_percentFixed) EditText editFixedPercent;
+    @Bind(R.id.editText_percentSavings) EditText editSavingsPercent;
+    @Bind(R.id.editText_percentFlexible) EditText editFlexiblePercent;
     private final static String TAG = "SetPreferences";
 
     Button btnConfirm;
@@ -30,55 +36,39 @@ public class SetPreferences extends AppCompatActivity {
         setContentView(R.layout.activity_set_preferences);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //Cast EditText and Buttons
-        editMonthlyIncome = (EditText)findViewById(R.id.editText_setMonthlyIncome);
-        editFixedPercent = (EditText)findViewById(R.id.editText_percentFixed);
-        editSavingsPercent = (EditText)findViewById(R.id.editText_percentSavings);
-        editFlexiblePercent = (EditText)findViewById(R.id.editText_percentFlexible);
-        btnConfirm = (Button)findViewById(R.id.button_confirmSettings);
-
-        confirmSettings();
+        ButterKnife.bind(this);
     }
 
-    private void confirmSettings() {
-        btnConfirm.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Save user inputs to Strings
-                        String income = editMonthlyIncome.getText().toString();
-                        String fixedText = editFixedPercent.getText().toString();
-                        String savingsText = editSavingsPercent.getText().toString();
-                        String flexibleText = editFlexiblePercent.getText().toString();
+    @OnClick(R.id.button_confirmSettings) protected void confirmSettings() {
+        //Save user inputs to Strings
+        String income = editMonthlyIncome.getText().toString();
+        String fixedText = editFixedPercent.getText().toString();
+        String savingsText = editSavingsPercent.getText().toString();
+        String flexibleText = editFlexiblePercent.getText().toString();
 
-                        //Parse monthlyIncome to global int
-                        monthlyIncome = ParserHelper.parseInt(income);
+        //Parse monthlyIncome to global int
+        monthlyIncome = ParserHelper.parseInt(income);
 
-                        //Parse editFixedPercent and set to fixedPercent
-                        fixedPercent = ParserHelper.parseInt(fixedText);
+        //Parse editFixedPercent and set to fixedPercent
+        fixedPercent = ParserHelper.parseInt(fixedText);
 
-                        //Parse editSavingsPercent and set to savingsPercent
-                        savingsPercent = ParserHelper.parseInt(savingsText);
+        //Parse editSavingsPercent and set to savingsPercent
+        savingsPercent = ParserHelper.parseInt(savingsText);
 
-                        //Parse flexibleText and set to flexiblePercent
-                        flexiblePercent = ParserHelper.parseInt(flexibleText);
+        //Parse flexibleText and set to flexiblePercent
+        flexiblePercent = ParserHelper.parseInt(flexibleText);
 
-                        //If percent values were valid by equaling 100, put data into shared preferences and return to MainActivity
-                        if (fixedPercent + savingsPercent + flexiblePercent == 100) {
-                            //save input to SharedPreferences
-                            setSharedPreferences(monthlyIncome, fixedPercent, savingsPercent, flexiblePercent);
+        //If percent values were valid by equaling 100, put data into shared preferences and return to MainActivity
+        if (fixedPercent + savingsPercent + flexiblePercent == 100) {
+            //save input to SharedPreferences
+            setSharedPreferences(monthlyIncome, fixedPercent, savingsPercent, flexiblePercent);
 
-                            //return user to MainActivity
-                            startActivity(new Intent(SetPreferences.this, MainActivity.class));
-                        } else {
-                            Toast.makeText(SetPreferences.this, "Percentages Do Not Equal 100", Toast.LENGTH_LONG).show();
-                            Log.d(TAG, "Invalid user input");
-                        }
-
-                    }
-                }
-        );
+            //return user to MainActivity
+            startActivity(new Intent(SetPreferences.this, MainActivity.class));
+        } else {
+            Toast.makeText(SetPreferences.this, "Percentages Do Not Equal 100", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Invalid user input");
+        }
     }
 
     //Method saves user input to SharedPreferences
