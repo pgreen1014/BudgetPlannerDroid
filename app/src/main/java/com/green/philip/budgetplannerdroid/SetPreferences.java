@@ -60,11 +60,11 @@ public class SetPreferences extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        //save user input to editor
-        editor.putString("MONTHLY_INCOME", monthlyIncome);
-        editor.putString("FIXED_PERCENT", fixedPercent);
-        editor.putString("SAVINGS_PERCENT", savingsPercent);
-        editor.putString("FLEXIBLE_PERCENT", flexiblePercent);
+        //convert user input to int and save to editor
+        editor.putInt("MONTHLY_INCOME", ParserHelper.parseInt(monthlyIncome));
+        editor.putInt("FIXED_PERCENT", ParserHelper.parseInt(fixedPercent));
+        editor.putInt("SAVINGS_PERCENT", ParserHelper.parseInt(savingsPercent));
+        editor.putInt("FLEXIBLE_PERCENT", ParserHelper.parseInt(flexiblePercent));
 
         //commit preferences to file
         editor.commit();

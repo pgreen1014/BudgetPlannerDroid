@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     //Declare global fields
     private static final String TAG = "MainActivity";
     private static final String parseCategory = "Flexible_Expenditure";
-    private static double monthlyIncome;
-    private static double flexiblePercent;
+    private static String monthlyIncome;
+    private static String flexiblePercent;
 
 
     @Override
@@ -63,23 +63,19 @@ public class MainActivity extends AppCompatActivity {
     //Adds data to the parse cloud when with the btnAddFlexibleData
     //Need to implement remaining amount into addDataCloud()
     @OnClick(R.id.button_addFlexibleData) protected void addData(){
-        //Initialize ParseObject
-        ParseObject data = new ParseObject("Expenditure");
 
         //Get Flexible amount and save to string
         String flexibleText = editFlexibleAmount.getText().toString();
 
-        //Parse flexibleText and save to double
-        double flexibleDouble = ParserHelper.parseDouble(flexibleText);
+        //if user input data, flexible amount not equal null and we can add data
+        if (flexibleText != null) {
 
-        //if parsing was successful, flexibleDouble will not equal 0 and we can add data
-        if (flexibleDouble != 0) {
             //put data into parse database
-            ParseHelper.putExpenditure(parseCategory, flexibleDouble, editFlexibleDetails.getText().toString());
+            ParseHelper.putExpenditure(parseCategory, flexibleText, editFlexibleDetails.getText().toString());
 
             //calculate new total remaining to spend and show to screen
-            double result = FinanceDataHelper.returnTotalRemaining(totalRemainingText.getText(), flexibleDouble);
-            totalRemainingText.setText(String.valueOf(result));
+            String result = FinanceDataHelper.returnTotalRemaining(totalRemainingText.getText(), flexibleText);
+            totalRemainingText.setText(result);
 
             //notify user of successful data insertion
             Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
@@ -119,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //returns the total amount of flexible expenditure spent
-    private double setTotalSpent() {
+    private String setTotalSpent() {
         //query Parse for total spent in Flexible_Expenditure category and save to expenses
         double expenses = ParseHelper.getExpenditure("Flexible_Expenditure");
 
@@ -127,10 +123,10 @@ public class MainActivity extends AppCompatActivity {
         if(expenses == 0) {
             Toast.makeText(MainActivity.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
             Log.d(TAG, "no data retrieved from Parse server");
-            return expenses;
+            return Double.toString(expenses);
         }
         else{
-          return expenses;
+          return Double.toString(expenses);
         }
 
     }
@@ -138,10 +134,16 @@ public class MainActivity extends AppCompatActivity {
     //gets user finance preferences and saves to global variables
     private void getPreferences(){
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        monthlyIncome = prefs.getInt("MONTHLY_INCOME", 0);
+
+        //get shared preference data, convert to string and save to global variable
+        int income = prefs.getInt("MONTHLY_INCOME", 0);
+        monthlyIncome = Integer.toString(income);
         int percent = prefs.getInt("FLEXIBLE_PERCENT", 0);
-        //convert Flexible Percent to a double and save to global variable
-        flexiblePercent = percent/100.0;
+
+
+        //convert Flexible Percent to a double and convert percentage to decimal format
+        double result = percent/100.0;
+        flexiblePercent = Double.toString(result);
     }
 
 

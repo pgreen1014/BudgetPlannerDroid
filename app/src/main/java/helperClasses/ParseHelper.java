@@ -23,13 +23,16 @@ public class ParseHelper {
     private static final String expenditureClass = "Expenditure";
 
     //puts data into the Parse database
-    public static void putExpenditure(String category, double amount, String details){
+    public static void putExpenditure(String category, String amount, String details){
         //Initialize Parse Object
         ParseObject data = new ParseObject("Expenditure");
 
+        //Parse amount to a double
+        double expense = ParserHelper.parseDouble(amount);
+
         //put data into the data ParseObject
         data.put("category", category);
-        data.put("amount", amount);
+        data.put("amount", expense);
         data.put("details", details);
 
         //save to Parse database in an async task

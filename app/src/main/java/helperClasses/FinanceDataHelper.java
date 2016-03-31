@@ -1,6 +1,7 @@
 package helperClasses;
 
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -15,31 +16,35 @@ public class FinanceDataHelper {
     }
 
     //returns amount remaining to spend for the month on startup
-    public static String setMonthlyExpense(double income, double percent, double amountSpent){
-        double monthlyIncome = income;
+    public static String setMonthlyExpense(String income, String percent, String amountSpent){
+        //Convert Parameters to BigDecimal
+        BigDecimal percentage = new BigDecimal(percent);
+        BigDecimal monthlyIncome = new BigDecimal(income);
+        BigDecimal spent = new BigDecimal(amountSpent);
 
         //calculate percentage of total income to spend
-        double totalToSpend = monthlyIncome*percent;
+        BigDecimal totalToSpend = monthlyIncome.multiply(percentage);
+        //Make sure decimal places are limited to 2
+        totalToSpend = totalToSpend.setScale(2);
 
         //calculate total remaining to spend for the month
-        double totalRemaining = totalToSpend - amountSpent;
+        BigDecimal result = totalToSpend.subtract(spent);
 
-        //round to the hundredth decimal
-        DecimalFormat df = new DecimalFormat("#0.00");
-        df.setRoundingMode(RoundingMode.DOWN);
-        String result = df.format(totalRemaining);
-
-        return result;
+        return result.toString();
     }
 
     //returns the monthly amount remaining to spend after user added data to the Parse database
-    public static double returnTotalRemaining(CharSequence amountRemaining, double expense){
-        //Convert CharSequence amountRemaining to a String and Parse to double
-        String cs = amountRemaining.toString();
-        double monthlyAmountRemaining = ParserHelper.parseDouble(cs);
+    public static String returnTotalRemaining(CharSequence amountRemaining, String expense){
+        //Convert Parameters into BigDecimal
+        BigDecimal remaining = new BigDecimal(amountRemaining.toString());
+        BigDecimal spent = new BigDecimal(expense);
 
-        //calculate the new amount remaining after new expense and return the result
-        return monthlyAmountRemaining - expense;
+        //Calculate new total remaining
+        BigDecimal result = remaining.subtract(spent);
+
+        //return result as String
+        return result.toString();
     }
+
 
 }

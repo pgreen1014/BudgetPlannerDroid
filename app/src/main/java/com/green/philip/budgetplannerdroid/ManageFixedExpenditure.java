@@ -38,8 +38,8 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     private static final String TAG = "ManageFixedExpenditure";
     private static final String parseCategory = "Fixed_Expenditure";
 
-    private static double monthlyIncome;
-    private static double fixedPercent;
+    private static String monthlyIncome;
+    private static String fixedPercent;
 
 
     @Override
@@ -61,17 +61,17 @@ public class ManageFixedExpenditure extends AppCompatActivity {
 
     //Add fixed expenditure data
     @OnClick(R.id.button_addFixedExpense) protected void addData() {
-        //initialize parse object
-        ParseObject data = new ParseObject("Expenditure");
+        //Get fixed amount and save to string
+        String fixedText = editFixedAmount.getText().toString();
         //parse editFixedAmount and save as a double
         double fixedExpense = ParserHelper.parseDouble(editFixedAmount.getText().toString());
 
         //if parsing was successful, fixedDouble will not equal 0 and we can add data
-        if(fixedExpense != 0){
-            ParseHelper.putExpenditure(parseCategory, fixedExpense, editFixedDetails.getText().toString());
+        if(fixedText != null){
+            ParseHelper.putExpenditure(parseCategory, fixedText, editFixedDetails.getText().toString());
 
             //calculate new totalRemainingFixedExpenditure and show to screen
-            double totalExpenditureRemaining = FinanceDataHelper.returnTotalRemaining(totalRemainingFixedExpenditure.getText(), fixedExpense);
+            String totalExpenditureRemaining = FinanceDataHelper.returnTotalRemaining(totalRemainingFixedExpenditure.getText(), fixedText);
             totalRemainingFixedExpenditure.setText(String.valueOf(totalExpenditureRemaining));
 
             Toast.makeText(ManageFixedExpenditure.this, "Data Inserted", Toast.LENGTH_LONG).show();
@@ -88,17 +88,17 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     }
 
     //returns total amount of fixed expenditure spent
-    private double setTotalSpent() {
+    private String setTotalSpent() {
 
         double expenses = ParseHelper.getExpenditure(parseCategory);
 
         if(expenses == 0) {
             Toast.makeText(ManageFixedExpenditure.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
             Log.d(TAG, "no data retrieved from Parse server");
-            return expenses;
+            return Double.toString(expenses);
         }
         else{
-            return expenses;
+            return Double.toString(expenses);
         }
     }
 
@@ -106,11 +106,15 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     private void getPreferences() {
         //initialized shared preferences object
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        //retrieve shared preferences
-        monthlyIncome = prefs.getInt("MONTHLY_INCOME", 0);
+
+        //retrieve shared preferences, convert to string, and save to global variable
+        int income =prefs.getInt("MONTHLY_INCOME", 0);
+        monthlyIncome = Integer.toString(income);
         int percent = prefs.getInt("FIXED_PERCENT", 0);
+
         //convert percent to decimal form
-        fixedPercent = percent/100.0;
+        double result = percent/100.0;
+        fixedPercent = Double.toString(result);
     }
 
 }
