@@ -42,46 +42,29 @@ public class SetPreferences extends AppCompatActivity {
     @OnClick(R.id.button_confirmSettings) protected void confirmSettings() {
         //Save user inputs to Strings
         String income = editMonthlyIncome.getText().toString();
-        String fixedText = editFixedPercent.getText().toString();
-        String savingsText = editSavingsPercent.getText().toString();
-        String flexibleText = editFlexiblePercent.getText().toString();
+        String fixed = editFixedPercent.getText().toString();
+        String savings = editSavingsPercent.getText().toString();
+        String flexible = editFlexiblePercent.getText().toString();
 
-        //Parse monthlyIncome to global int
-        monthlyIncome = ParserHelper.parseInt(income);
+        //save input to SharedPreferences
+        setSharedPreferences(income, fixed, savings, flexible);
 
-        //Parse editFixedPercent and set to fixedPercent
-        fixedPercent = ParserHelper.parseInt(fixedText);
+        //return user to MainActivity
+        startActivity(new Intent(SetPreferences.this, MainActivity.class));
 
-        //Parse editSavingsPercent and set to savingsPercent
-        savingsPercent = ParserHelper.parseInt(savingsText);
-
-        //Parse flexibleText and set to flexiblePercent
-        flexiblePercent = ParserHelper.parseInt(flexibleText);
-
-        //If percent values were valid by equaling 100, put data into shared preferences and return to MainActivity
-        if (fixedPercent + savingsPercent + flexiblePercent == 100) {
-            //save input to SharedPreferences
-            setSharedPreferences(monthlyIncome, fixedPercent, savingsPercent, flexiblePercent);
-
-            //return user to MainActivity
-            startActivity(new Intent(SetPreferences.this, MainActivity.class));
-        } else {
-            Toast.makeText(SetPreferences.this, "Percentages Do Not Equal 100", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Invalid user input");
-        }
     }
 
     //Method saves user input to SharedPreferences
-    private void setSharedPreferences(int monthlyIncome, int fixedPercent, int savingsPercent, int flexiblePercent) {
+    private void setSharedPreferences(String monthlyIncome, String fixedPercent, String savingsPercent, String flexiblePercent) {
         //Initialize SharedPreferences object and and editor
         SharedPreferences sharedPreferences = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         //save user input to editor
-        editor.putInt("MONTHLY_INCOME", monthlyIncome);
-        editor.putInt("FIXED_PERCENT", fixedPercent);
-        editor.putInt("SAVINGS_PERCENT", savingsPercent);
-        editor.putInt("FLEXIBLE_PERCENT", flexiblePercent);
+        editor.putString("MONTHLY_INCOME", monthlyIncome);
+        editor.putString("FIXED_PERCENT", fixedPercent);
+        editor.putString("SAVINGS_PERCENT", savingsPercent);
+        editor.putString("FLEXIBLE_PERCENT", flexiblePercent);
 
         //commit preferences to file
         editor.commit();
