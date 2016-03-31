@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         getPreferences();
 
         //calculate monthly data
-        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, setTotalSpent());
+        String spendingTotal = FinanceDataHelper.setSpendingTotal(parseCategory, MainActivity.this, TAG);
+        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, spendingTotal);
         //Show total remaining to screen
         totalRemainingText.setText(monthlyAmountRemaining);
     }
@@ -112,23 +113,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    //returns the total amount of flexible expenditure spent
-    private String setTotalSpent() {
-        //query Parse for total spent in Flexible_Expenditure category and save to expenses
-        double expenses = ParseHelper.getExpenditure("Flexible_Expenditure");
-
-        //if total expense returned is 0 inform user that no data was retrieved
-        if(expenses == 0) {
-            Toast.makeText(MainActivity.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "no data retrieved from Parse server");
-            return Double.toString(expenses);
-        }
-        else{
-          return Double.toString(expenses);
-        }
-
     }
 
     //gets user finance preferences and saves to global variables

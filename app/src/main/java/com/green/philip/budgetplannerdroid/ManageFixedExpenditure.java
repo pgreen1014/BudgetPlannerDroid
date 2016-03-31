@@ -54,7 +54,8 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         getPreferences();
 
         //Calculate monthly fixed data
-        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, fixedPercent, setTotalSpent());
+        String totalToSpend = FinanceDataHelper.setSpendingTotal(parseCategory, ManageFixedExpenditure.this, TAG);
+        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, fixedPercent, totalToSpend);
 
         totalRemainingFixedExpenditure.setText(monthlyAmountRemaining);
     }
@@ -85,21 +86,6 @@ public class ManageFixedExpenditure extends AppCompatActivity {
     //Takes user to manage data
     @OnClick(R.id.button_returnToManageData) protected void returnToManageData() {
         startActivity(new Intent(ManageFixedExpenditure.this, ManageData.class));
-    }
-
-    //returns total amount of fixed expenditure spent
-    private String setTotalSpent() {
-
-        double expenses = ParseHelper.getExpenditure(parseCategory);
-
-        if(expenses == 0) {
-            Toast.makeText(ManageFixedExpenditure.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "no data retrieved from Parse server");
-            return Double.toString(expenses);
-        }
-        else{
-            return Double.toString(expenses);
-        }
     }
 
     //gets user finance preferences and saves to global variables

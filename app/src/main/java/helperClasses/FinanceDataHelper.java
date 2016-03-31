@@ -1,6 +1,10 @@
 package helperClasses;
 
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -44,6 +48,21 @@ public class FinanceDataHelper {
 
         //return result as String
         return result.toString();
+    }
+
+    //returns the total amount of expenditure left to spend
+    public static String setSpendingTotal(String parseCategory, Context context, String TAG){
+
+        double expenses = ParseHelper.getExpenditure(parseCategory);
+
+        if(expenses == 0) {
+            Toast.makeText(context, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "no data retrieved from Parse server");
+            return Double.toString(expenses);
+        }
+        else{
+            return Double.toString(expenses);
+        }
     }
 
 
