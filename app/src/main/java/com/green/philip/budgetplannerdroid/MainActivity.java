@@ -25,6 +25,7 @@ import butterknife.OnClick;
 import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
+import helperClasses.SharedPreferenceHelper;
 
 public class MainActivity extends AppCompatActivity {
     //Bind Views
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //get data from sharedPreferences and save to global variables
+
         getPreferences();
 
         //calculate monthly data
@@ -117,12 +119,10 @@ public class MainActivity extends AppCompatActivity {
 
     //gets user finance preferences and saves to global variables
     private void getPreferences(){
-        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
         //get shared preference data, convert to string and save to global variable
-        int income = prefs.getInt("MONTHLY_INCOME", 0);
-        monthlyIncome = Integer.toString(income);
-        int percent = prefs.getInt("FLEXIBLE_PERCENT", 0);
+        monthlyIncome = Integer.toString(SharedPreferenceHelper.getMonthlyIncome(MainActivity.this));
+        int percent = SharedPreferenceHelper.getFlexiblePercent(MainActivity.this);
 
 
         //convert Flexible Percent to a double and convert percentage to decimal format

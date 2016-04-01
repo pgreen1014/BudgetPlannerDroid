@@ -30,6 +30,7 @@ import butterknife.OnClick;
 import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
+import helperClasses.SharedPreferenceHelper;
 
 public class ManageFixedExpenditure extends AppCompatActivity {
     @Bind(R.id.editText_fixedExpense) EditText editFixedAmount;
@@ -94,9 +95,9 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
         //retrieve shared preferences, convert to string, and save to global variable
-        int income =prefs.getInt("MONTHLY_INCOME", 0);
+        int income = SharedPreferenceHelper.getMonthlyIncome(ManageFixedExpenditure.this);
         monthlyIncome = Integer.toString(income);
-        int percent = prefs.getInt("FIXED_PERCENT", 0);
+        int percent = SharedPreferenceHelper.getFixedPercent(ManageFixedExpenditure.this);
 
         //convert percent to decimal form
         double result = percent/100.0;
