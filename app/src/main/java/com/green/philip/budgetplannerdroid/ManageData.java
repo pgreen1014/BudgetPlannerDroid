@@ -28,7 +28,7 @@ import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
 
 public class ManageData extends AppCompatActivity {
-    @Bind(R.id.editText_ID) EditText editID;
+    @Bind(R.id.editText_ID) EditText mEditID;
     private final static String TAG = "ManageData";
 
     //HashMap to assign simpler ids to parse objects for individual deletion
@@ -87,7 +87,7 @@ public class ManageData extends AppCompatActivity {
     //Delete data by id
     @OnClick(R.id.button_deleteData) protected void deleteData(){
         //get id input from editID
-        String inputValue = editID.getText().toString();
+        String inputValue = mEditID.getText().toString();
 
         //Parse inputValue to int
         int key = ParserHelper.parseInt(inputValue);

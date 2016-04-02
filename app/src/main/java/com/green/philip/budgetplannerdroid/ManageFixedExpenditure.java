@@ -33,9 +33,9 @@ import helperClasses.ParserHelper;
 import helperClasses.SharedPreferenceHelper;
 
 public class ManageFixedExpenditure extends AppCompatActivity {
-    @Bind(R.id.editText_fixedExpense) EditText editFixedAmount;
-    @Bind(R.id.editText_fixedDetails) EditText editFixedDetails;
-    @Bind(R.id.textView_totalFixedExpenditureRemaining) TextView totalRemainingFixedExpenditure;
+    @Bind(R.id.editText_fixedExpense) EditText mFixedAmount;
+    @Bind(R.id.editText_fixedDetails) EditText mFixedDetails;
+    @Bind(R.id.textView_totalFixedExpenditureRemaining) TextView mTotalRemainingExpenditure;
     private static final String TAG = "ManageFixedExpenditure";
     private static final String parseCategory = "Fixed_Expenditure";
 
@@ -58,23 +58,23 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         String totalToSpend = FinanceDataHelper.setSpendingTotal(parseCategory, ManageFixedExpenditure.this, TAG);
         String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, fixedPercent, totalToSpend);
 
-        totalRemainingFixedExpenditure.setText(monthlyAmountRemaining);
+        mTotalRemainingExpenditure.setText(monthlyAmountRemaining);
     }
 
     //Add fixed expenditure data
     @OnClick(R.id.button_addFixedExpense) protected void addData() {
         //Get fixed amount and save to string
-        String fixedText = editFixedAmount.getText().toString();
+        String fixedText = mFixedAmount.getText().toString();
         //parse editFixedAmount and save as a double
-        double fixedExpense = ParserHelper.parseDouble(editFixedAmount.getText().toString());
+        double fixedExpense = ParserHelper.parseDouble(mFixedAmount.getText().toString());
 
         //if parsing was successful, fixedDouble will not equal 0 and we can add data
         if(fixedText != null){
-            ParseHelper.putExpenditure(parseCategory, fixedText, editFixedDetails.getText().toString());
+            ParseHelper.putExpenditure(parseCategory, fixedText, mFixedDetails.getText().toString());
 
             //calculate new totalRemainingFixedExpenditure and show to screen
-            String totalExpenditureRemaining = FinanceDataHelper.returnTotalRemaining(totalRemainingFixedExpenditure.getText(), fixedText);
-            totalRemainingFixedExpenditure.setText(String.valueOf(totalExpenditureRemaining));
+            String totalExpenditureRemaining = FinanceDataHelper.returnTotalRemaining(mTotalRemainingExpenditure.getText(), fixedText);
+            mTotalRemainingExpenditure.setText(String.valueOf(totalExpenditureRemaining));
 
             Toast.makeText(ManageFixedExpenditure.this, "Data Inserted", Toast.LENGTH_LONG).show();
         }

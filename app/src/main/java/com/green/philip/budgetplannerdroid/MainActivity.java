@@ -29,9 +29,9 @@ import helperClasses.SharedPreferenceHelper;
 
 public class MainActivity extends AppCompatActivity {
     //Bind Views
-    @Bind(R.id.editText_flexibleAmount) EditText editFlexibleAmount;
-    @Bind(R.id.editText_flexibleDetails) EditText editFlexibleDetails;
-    @Bind(R.id.textView_totalRemaining) TextView totalRemainingText;
+    @Bind(R.id.editText_flexibleAmount) EditText mFlexibleAmount;
+    @Bind(R.id.editText_flexibleDetails) EditText mFlexibleDetails;
+    @Bind(R.id.textView_totalRemaining) TextView mTotalRemaining;
     //Declare global fields
     private static final String TAG = "MainActivity";
     private static final String parseCategory = "Flexible_Expenditure";
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         String spendingTotal = FinanceDataHelper.setSpendingTotal(parseCategory, MainActivity.this, TAG);
         String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, spendingTotal);
         //Show total remaining to screen
-        totalRemainingText.setText(monthlyAmountRemaining);
+        mTotalRemaining.setText(monthlyAmountRemaining);
     }
 
     //takes user to SetPreferences activity
@@ -68,17 +68,17 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.button_addFlexibleData) protected void addData(){
 
         //Get Flexible amount and save to string
-        String flexibleText = editFlexibleAmount.getText().toString();
+        String flexibleText = mFlexibleAmount.getText().toString();
 
         //if user input data, flexible amount not equal null and we can add data
         if (flexibleText != null) {
 
             //put data into parse database
-            ParseHelper.putExpenditure(parseCategory, flexibleText, editFlexibleDetails.getText().toString());
+            ParseHelper.putExpenditure(parseCategory, flexibleText, mFlexibleDetails.getText().toString());
 
             //calculate new total remaining to spend and show to screen
-            String result = FinanceDataHelper.returnTotalRemaining(totalRemainingText.getText(), flexibleText);
-            totalRemainingText.setText(result);
+            String result = FinanceDataHelper.returnTotalRemaining(mTotalRemaining.getText(), flexibleText);
+            mTotalRemaining.setText(result);
 
             //notify user of successful data insertion
             Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();

@@ -20,10 +20,10 @@ import helperClasses.ParserHelper;
 
 
 public class SetPreferences extends AppCompatActivity {
-    @Bind(R.id.editText_setMonthlyIncome) EditText editMonthlyIncome;
-    @Bind(R.id.editText_percentFixed) EditText editFixedPercent;
-    @Bind(R.id.editText_percentSavings) EditText editSavingsPercent;
-    @Bind(R.id.editText_percentFlexible) EditText editFlexiblePercent;
+    @Bind(R.id.editText_setMonthlyIncome) EditText mMonthlyIncome;
+    @Bind(R.id.editText_percentFixed) EditText mFixedPercent;
+    @Bind(R.id.editText_percentSavings) EditText mSavingsPercent;
+    @Bind(R.id.editText_percentFlexible) EditText mFlexiblePercent;
     private final static String TAG = "SetPreferences";
 
     Button btnConfirm;
@@ -41,10 +41,10 @@ public class SetPreferences extends AppCompatActivity {
 
     @OnClick(R.id.button_confirmSettings) protected void confirmSettings() {
         //Save user inputs to Strings
-        String income = editMonthlyIncome.getText().toString();
-        String fixed = editFixedPercent.getText().toString();
-        String savings = editSavingsPercent.getText().toString();
-        String flexible = editFlexiblePercent.getText().toString();
+        String income = mMonthlyIncome.getText().toString();
+        String fixed = mFixedPercent.getText().toString();
+        String savings = mSavingsPercent.getText().toString();
+        String flexible = mFlexiblePercent.getText().toString();
 
         //save input to SharedPreferences
         setSharedPreferences(income, fixed, savings, flexible);
