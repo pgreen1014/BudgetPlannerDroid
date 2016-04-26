@@ -1,9 +1,12 @@
 package com.green.philip.budgetplannerdroid;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 
+import helperClasses.ParseHelper;
 import helperClasses.SharedPreferenceHelper;
 
 /**
@@ -16,7 +19,7 @@ public class ExpenseLab {
     private static BigDecimal sPercentFixedExpenditure;
     private static BigDecimal sPercentSavings;
 
-    public ExpenseLab get(Context context) {
+    public static ExpenseLab get(Context context) {
         if (sExpenseLab == null) {
             sExpenseLab = new ExpenseLab(context);
         }
@@ -28,6 +31,22 @@ public class ExpenseLab {
         setPercentFlexibleExpenditure(context);
         setPercentSavings(context);
         setMonthlyIncome(context);
+    }
+
+    public BigDecimal getMonthlyIncome() {
+        return sMonthlyIncome;
+    }
+
+    public BigDecimal getPercentFlexibleExpenditure() {
+        return sPercentFlexibleExpenditure;
+    }
+
+    public BigDecimal getPercentFixedExpenditure() {
+        return sPercentFixedExpenditure;
+    }
+
+    public BigDecimal getPercentSavings() {
+        return sPercentSavings;
     }
 
     // gets flexible expenditure percent from shared preferences and saves as BigDecimal
@@ -61,6 +80,13 @@ public class ExpenseLab {
         sMonthlyIncome = new BigDecimal(Integer.toString(monthlyIncome));
     }
 
+    public void updatePreferences(Context context) {
+        setPercentFixedExpenditure(context);
+        setPercentFlexibleExpenditure(context);
+        setPercentSavings(context);
+        setMonthlyIncome(context);
+    }
+
     // Returns the total amount to spend for a particular type of expenditure
     public String getMonthlyExpense(BigDecimal income, BigDecimal percent, BigDecimal amountSpent) {
         //calculate percentage of total income to spend
@@ -71,5 +97,20 @@ public class ExpenseLab {
         //calculate total remaining to spend for the month
         BigDecimal result = totalToSpend.subtract(amountSpent);
         return result.toString();
+    }
+
+    //returns the total amount of expenditure left to spend
+    public BigDecimal setSpendingTotal(String parseCategory, Context context, String TAG){
+
+        double expenses = ParseHelper.getExpenditure(parseCategory);
+
+        if(expenses == 0) {
+            Toast.makeText(context, "Unable to Retrieve Data from Server", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "no data retrieved from Parse server");
+            return new BigDecimal(Double.toString(expenses));
+        }
+        else{
+            return new BigDecimal(Double.toString(expenses));
+        }
     }
 }
