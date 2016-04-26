@@ -100,13 +100,12 @@ public class ExpenseLab {
     }
 
     //returns the total amount of expenditure left to spend
-    public BigDecimal setSpendingTotal(String parseCategory, Context context, String TAG){
+    public BigDecimal setSpendingTotal(String parseCategory, Context context){
 
         double expenses = ParseHelper.getExpenditure(parseCategory);
 
         if(expenses == 0) {
             Toast.makeText(context, "Unable to Retrieve Data from Server", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "no data retrieved from Parse server");
             return new BigDecimal(Double.toString(expenses));
         }
         else{
