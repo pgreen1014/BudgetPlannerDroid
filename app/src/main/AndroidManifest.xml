@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".FlexibleExpenditureActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
@@ -31,17 +31,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SetPreferences"
+            android:name=".SetPreferencesActivity"
             android:label="@string/title_activity_set_preferences"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ManageData"
+            android:name=".ManageDataActivity"
             android:label="@string/title_activity_manage_data"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ManageFixedExpenditure"
+            android:name=".FixedExpenditureActivity"
             android:label="@string/title_activity_manage_fixed_expenditure"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>

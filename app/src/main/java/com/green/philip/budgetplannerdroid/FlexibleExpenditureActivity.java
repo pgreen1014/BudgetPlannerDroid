@@ -51,9 +51,9 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
         mTotalRemaining.setText(monthlyAmountRemaining);
     }
 
-    //takes user to SetPreferences activity
+    //takes user to SetPreferencesActivity activity
     @OnClick(R.id.button_toPreferences) protected void toSetPreferences(){
-        startActivity(new Intent(FlexibleExpenditureActivity.this, SetPreferences.class));
+        startActivity(new Intent(FlexibleExpenditureActivity.this, SetPreferencesActivity.class));
     }
 
     //Adds data to the parse cloud when with the btnAddFlexibleData
@@ -83,9 +83,9 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
         }
     }
 
-    //Changes to ManageData Activity
+    //Changes to ManageDataActivity Activity
     @OnClick(R.id.button_manageData) protected void toManageData(){
-        startActivity(new Intent(FlexibleExpenditureActivity.this, ManageData.class));
+        startActivity(new Intent(FlexibleExpenditureActivity.this, ManageDataActivity.class));
     }
 
     @Override

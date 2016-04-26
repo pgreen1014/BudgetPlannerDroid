@@ -106,7 +106,7 @@ public class ManageDataActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.button_toFixedExpenditure) protected void toManageFixedExpenditure(){
-        startActivity(new Intent(ManageDataActivity.this, ManageFixedExpenditure.class));
+        startActivity(new Intent(ManageDataActivity.this, FixedExpenditureActivity.class));
     }
 
     @OnClick(R.id.button_returnToMain) protected void toMainMenu() {
