@@ -8,15 +8,10 @@ import android.support.v7.widget.Toolbar;
 
 import android.util.Log;
 
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +22,9 @@ import butterknife.OnClick;
 import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
 
-public class ManageData extends AppCompatActivity {
+public class ManageDataActivity extends AppCompatActivity {
     @Bind(R.id.editText_ID) EditText mEditID;
-    private final static String TAG = "ManageData";
+    private final static String TAG = "ManageDataActivity";
 
     //HashMap to assign simpler ids to parse objects for individual deletion
     HashMap<Integer, String> id = new HashMap();
@@ -80,7 +75,7 @@ public class ManageData extends AppCompatActivity {
             showMessage("Data", message);
         }
         else{
-            Toast.makeText(ManageData.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
+            Toast.makeText(ManageDataActivity.this, "Unable to Retrieve Data from Server", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -95,10 +90,10 @@ public class ManageData extends AppCompatActivity {
         //if there was an input
         if(key != 0){
             ParseHelper.deleteObject(id.get(key));
-            Toast.makeText(ManageData.this, "Data Deleted", Toast.LENGTH_LONG).show();
+            Toast.makeText(ManageDataActivity.this, "Data Deleted", Toast.LENGTH_LONG).show();
         }
         else{
-            Toast.makeText(ManageData.this, "Invalid Input", Toast.LENGTH_LONG).show();
+            Toast.makeText(ManageDataActivity.this, "Invalid Input", Toast.LENGTH_LONG).show();
             Log.d(TAG, "unable to delete object based on user id input");
         }
     }
@@ -107,15 +102,15 @@ public class ManageData extends AppCompatActivity {
     @OnClick(R.id.button_deleteAllData) protected void deleteAllData() {
         //Delete all data asynchronously
         ParseHelper.deleteAllData();
-        Toast.makeText(ManageData.this, "All Data Deleted", Toast.LENGTH_LONG).show();
+        Toast.makeText(ManageDataActivity.this, "All Data Deleted", Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.button_toFixedExpenditure) protected void toManageFixedExpenditure(){
-        startActivity(new Intent(ManageData.this, ManageFixedExpenditure.class));
+        startActivity(new Intent(ManageDataActivity.this, ManageFixedExpenditure.class));
     }
 
     @OnClick(R.id.button_returnToMain) protected void toMainMenu() {
-        startActivity(new Intent(ManageData.this, MainActivity.class));
+        startActivity(new Intent(ManageDataActivity.this, FlexibleExpenditureActivity.class));
     }
 
     //shows message to screen

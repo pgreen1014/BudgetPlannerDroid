@@ -6,11 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
 import butterknife.Bind;
@@ -19,12 +16,12 @@ import butterknife.OnClick;
 import helperClasses.ParserHelper;
 
 
-public class SetPreferences extends AppCompatActivity {
+public class SetPreferencesActivity extends AppCompatActivity {
     @Bind(R.id.editText_setMonthlyIncome) EditText mMonthlyIncome;
     @Bind(R.id.editText_percentFixed) EditText mFixedPercent;
     @Bind(R.id.editText_percentSavings) EditText mSavingsPercent;
     @Bind(R.id.editText_percentFlexible) EditText mFlexiblePercent;
-    private final static String TAG = "SetPreferences";
+    private final static String TAG = "SetPreferencesActivity";
 
     Button btnConfirm;
 
@@ -49,8 +46,8 @@ public class SetPreferences extends AppCompatActivity {
         //save input to SharedPreferences
         setSharedPreferences(income, fixed, savings, flexible);
 
-        //return user to MainActivity
-        startActivity(new Intent(SetPreferences.this, MainActivity.class));
+        //return user to FlexibleExpenditureActivity
+        startActivity(new Intent(SetPreferencesActivity.this, FlexibleExpenditureActivity.class));
 
     }
 
@@ -84,7 +81,7 @@ public class SetPreferences extends AppCompatActivity {
                         int savPercent = sharedPreferences.getInt("SAVINGS_PERCENT", 0);
                         int flexPercent = sharedPreferences.getInt("FLEXIBLE_PERCENT", 0);
 
-                        Toast.makeText(SetPreferences.this, "Income: " + income + "\nFixed Percent: " + fixPercent + "\nSavings Percent: " + savPercent + "\nFlexible Percent: " + flexPercent, Toast.LENGTH_LONG).show();
+                        Toast.makeText(SetPreferencesActivity.this, "Income: " + income + "\nFixed Percent: " + fixPercent + "\nSavings Percent: " + savPercent + "\nFlexible Percent: " + flexPercent, Toast.LENGTH_LONG).show();
 
                     }
                 }

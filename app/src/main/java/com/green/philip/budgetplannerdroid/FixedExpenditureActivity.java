@@ -4,25 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,11 +18,11 @@ import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
 import helperClasses.SharedPreferenceHelper;
 
-public class ManageFixedExpenditure extends AppCompatActivity {
+public class FixedExpenditureActivity extends AppCompatActivity {
     @Bind(R.id.editText_fixedExpense) EditText mFixedAmount;
     @Bind(R.id.editText_fixedDetails) EditText mFixedDetails;
     @Bind(R.id.textView_totalFixedExpenditureRemaining) TextView mTotalRemainingExpenditure;
-    private static final String TAG = "ManageFixedExpenditure";
+    private static final String TAG = "FixedExpenditureActivity";
     private static final String parseCategory = "Fixed_Expenditure";
 
     private static String monthlyIncome;
@@ -55,7 +41,7 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         getPreferences();
 
         //Calculate monthly fixed data
-        String totalToSpend = FinanceDataHelper.setSpendingTotal(parseCategory, ManageFixedExpenditure.this, TAG);
+        String totalToSpend = FinanceDataHelper.setSpendingTotal(parseCategory, FixedExpenditureActivity.this, TAG);
         String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, fixedPercent, totalToSpend);
 
         mTotalRemainingExpenditure.setText(monthlyAmountRemaining);
@@ -76,17 +62,17 @@ public class ManageFixedExpenditure extends AppCompatActivity {
             String totalExpenditureRemaining = FinanceDataHelper.returnTotalRemaining(mTotalRemainingExpenditure.getText(), fixedText);
             mTotalRemainingExpenditure.setText(String.valueOf(totalExpenditureRemaining));
 
-            Toast.makeText(ManageFixedExpenditure.this, "Data Inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(FixedExpenditureActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
         }
         //else data is invalid and will not be inserted
         else{
-            Toast.makeText(ManageFixedExpenditure.this, "Invalid Amount", Toast.LENGTH_LONG).show();
+            Toast.makeText(FixedExpenditureActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
         }
     }
 
     //Takes user to manage data
     @OnClick(R.id.button_returnToManageData) protected void returnToManageData() {
-        startActivity(new Intent(ManageFixedExpenditure.this, ManageData.class));
+        startActivity(new Intent(FixedExpenditureActivity.this, ManageDataActivity.class));
     }
 
     //gets user finance preferences and saves to global variables
@@ -95,9 +81,9 @@ public class ManageFixedExpenditure extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
         //retrieve shared preferences, convert to string, and save to global variable
-        int income = SharedPreferenceHelper.getMonthlyIncome(ManageFixedExpenditure.this);
+        int income = SharedPreferenceHelper.getMonthlyIncome(FixedExpenditureActivity.this);
         monthlyIncome = Integer.toString(income);
-        int percent = SharedPreferenceHelper.getFixedPercent(ManageFixedExpenditure.this);
+        int percent = SharedPreferenceHelper.getFixedPercent(FixedExpenditureActivity.this);
 
         //convert percent to decimal form
         double result = percent/100.0;

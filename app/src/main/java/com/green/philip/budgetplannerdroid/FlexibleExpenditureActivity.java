@@ -1,39 +1,32 @@
 package com.green.philip.budgetplannerdroid;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.parse.ParseObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
-import helperClasses.ParserHelper;
 import helperClasses.SharedPreferenceHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class FlexibleExpenditureActivity extends AppCompatActivity {
     //Bind Views
     @Bind(R.id.editText_flexibleAmount) EditText mFlexibleAmount;
     @Bind(R.id.editText_flexibleDetails) EditText mFlexibleDetails;
     @Bind(R.id.textView_totalRemaining) TextView mTotalRemaining;
     //Declare global fields
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "FlexibleExpenditureActivity";
     private static final String parseCategory = "Flexible_Expenditure";
     private static String monthlyIncome;
     private static String flexiblePercent;
@@ -52,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         getPreferences();
 
         //calculate monthly data
-        String spendingTotal = FinanceDataHelper.setSpendingTotal(parseCategory, MainActivity.this, TAG);
+        String spendingTotal = FinanceDataHelper.setSpendingTotal(parseCategory, FlexibleExpenditureActivity.this, TAG);
         String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, spendingTotal);
         //Show total remaining to screen
         mTotalRemaining.setText(monthlyAmountRemaining);
@@ -60,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     //takes user to SetPreferences activity
     @OnClick(R.id.button_toPreferences) protected void toSetPreferences(){
-        startActivity(new Intent(MainActivity.this, SetPreferences.class));
+        startActivity(new Intent(FlexibleExpenditureActivity.this, SetPreferences.class));
     }
 
     //Adds data to the parse cloud when with the btnAddFlexibleData
@@ -81,18 +74,18 @@ public class MainActivity extends AppCompatActivity {
             mTotalRemaining.setText(result);
 
             //notify user of successful data insertion
-            Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
+            Toast.makeText(FlexibleExpenditureActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
         }
         //else data is invalid and will not be inserted
         else {
-            Toast.makeText(MainActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
+            Toast.makeText(FlexibleExpenditureActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
             Log.d(TAG, "Unable to parse user input");
         }
     }
 
     //Changes to ManageData Activity
     @OnClick(R.id.button_manageData) protected void toManageData(){
-        startActivity(new Intent(MainActivity.this, ManageData.class));
+        startActivity(new Intent(FlexibleExpenditureActivity.this, ManageData.class));
     }
 
     @Override
@@ -121,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
     private void getPreferences(){
 
         //get shared preference data, convert to string and save to global variable
-        monthlyIncome = Integer.toString(SharedPreferenceHelper.getMonthlyIncome(MainActivity.this));
-        int percent = SharedPreferenceHelper.getFlexiblePercent(MainActivity.this);
+        monthlyIncome = Integer.toString(SharedPreferenceHelper.getMonthlyIncome(FlexibleExpenditureActivity.this));
+        int percent = SharedPreferenceHelper.getFlexiblePercent(FlexibleExpenditureActivity.this);
 
 
         //convert Flexible Percent to a double and convert percentage to decimal format
