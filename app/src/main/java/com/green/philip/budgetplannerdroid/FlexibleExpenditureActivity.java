@@ -22,7 +22,7 @@ import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
 import helperClasses.SharedPreferenceHelper;
 
-public class FlexibleExpenditureActivity extends AppCompatActivity {
+public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
     //Bind Views
     @Bind(R.id.editText_flexibleAmount) EditText mFlexibleAmount;
     @Bind(R.id.editText_flexibleDetails) EditText mFlexibleDetails;
@@ -31,27 +31,6 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
     private static final String TAG = "FlexExpenditureActivity";
     private static final String parseCategory = "Flexible_Expenditure";
 
-    private BigDecimal mSpendingTotal;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ButterKnife.bind(this);
-
-        ExpenseLab expenseLab = ExpenseLab.get(FlexibleExpenditureActivity.this);
-        expenseLab.updatePreferences(FlexibleExpenditureActivity.this);
-
-        // Calculate monthly data
-        mSpendingTotal = expenseLab.setSpendingTotal(Expense.FLEXIBLE_EXPENSE, FlexibleExpenditureActivity.this, TAG);
-        String monthlyAmountRemaining = expenseLab.getMonthlyExpense(expenseLab.getMonthlyIncome(), expenseLab.getPercentFlexibleExpenditure(), mSpendingTotal);
-
-        //Show total remaining to screen
-        mTotalRemaining.setText(monthlyAmountRemaining);
-    }
 
     //takes user to SetPreferencesActivity activity
     @OnClick(R.id.button_toPreferences) protected void toSetPreferences(){
@@ -112,4 +91,25 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected int setLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected TextView totalRemainingTextView() {
+        return mTotalRemaining;
+    }
+
+    @Override
+    protected String expenseCategory() {
+        return Expense.FLEXIBLE_EXPENSE;
+    }
+
+    @Override
+    protected BigDecimal getExpenditureCategoryPercent() {
+        ExpenseLab expenseLab = ExpenseLab.get(FlexibleExpenditureActivity.this);
+        return expenseLab.getPercentFlexibleExpenditure();
+    }
 }
+

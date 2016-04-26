@@ -20,35 +20,13 @@ import helperClasses.ParseHelper;
 import helperClasses.ParserHelper;
 import helperClasses.SharedPreferenceHelper;
 
-public class FixedExpenditureActivity extends AppCompatActivity {
+public class FixedExpenditureActivity extends ExpenditureActivityTemplate {
     @Bind(R.id.editText_fixedExpense) EditText mFixedAmount;
     @Bind(R.id.editText_fixedDetails) EditText mFixedDetails;
     @Bind(R.id.textView_totalFixedExpenditureRemaining) TextView mTotalRemainingExpenditure;
 
-    private static final String TAG = "FixedExpenditureActivity";
     private static final String parseCategory = "Fixed_Expenditure";
 
-    private BigDecimal mSpendingTotal;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_fixed_expenditure);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ButterKnife.bind(this);
-
-        //get data from sharedPreferences
-        ExpenseLab expenseLab = ExpenseLab.get(FixedExpenditureActivity.this);
-        expenseLab.updatePreferences(FixedExpenditureActivity.this);
-
-        //Calculate monthly fixed data
-        mSpendingTotal = expenseLab.setSpendingTotal(Expense.FIXED_EXPENSE, FixedExpenditureActivity.this, TAG);
-        String monthlyAmountRemaining = expenseLab.getMonthlyExpense(expenseLab.getMonthlyIncome(), expenseLab.getPercentFlexibleExpenditure(), mSpendingTotal);
-
-        mTotalRemainingExpenditure.setText(monthlyAmountRemaining);
-    }
 
     //Add fixed expenditure data
     @OnClick(R.id.button_addFixedExpense) protected void addData() {
@@ -78,4 +56,24 @@ public class FixedExpenditureActivity extends AppCompatActivity {
         startActivity(new Intent(FixedExpenditureActivity.this, ManageDataActivity.class));
     }
 
+    @Override
+    protected int setLayout() {
+        return R.layout.activity_manage_fixed_expenditure;
+    }
+
+    @Override
+    protected TextView totalRemainingTextView() {
+        return mTotalRemainingExpenditure;
+    }
+
+    @Override
+    protected String expenseCategory() {
+        return Expense.FIXED_EXPENSE;
+    }
+
+    @Override
+    protected BigDecimal getExpenditureCategoryPercent() {
+        ExpenseLab expenseLab = ExpenseLab.get(FixedExpenditureActivity.this);
+        return expenseLab.getPercentFixedExpenditure();
+    }
 }
