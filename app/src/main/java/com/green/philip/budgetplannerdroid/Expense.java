@@ -49,11 +49,11 @@ public class Expense {
         return mExpenditureType;
     }
 
-    public void setExpenditureType(String expenditureType) {
+    public void setExpenditureType(String expenditureType, String TAG) {
         if (expenditureType == FIXED_EXPENSE || expenditureType == FLEXIBLE_EXPENSE) {
             mExpenditureType = expenditureType;
         } else {
-            Log.d("code did not use predfined static strings fore mExpenditureType", TAG);
+            Log.d("must use defined string", TAG);
         }
     }
 }
