@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,10 +28,10 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
     @Bind(R.id.editText_flexibleDetails) EditText mFlexibleDetails;
     @Bind(R.id.textView_totalRemaining) TextView mTotalRemaining;
     //Declare global fields
-    private static final String TAG = "FlexibleExpenditureActivity";
+    private static final String TAG = "FlexExpenditureActivity";
     private static final String parseCategory = "Flexible_Expenditure";
-    private static String monthlyIncome;
-    private static String flexiblePercent;
+
+    private BigDecimal mSpendingTotal;
 
 
     @Override
@@ -40,13 +42,13 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        //get data from sharedPreferences and save to global variables
+        ExpenseLab expenseLab = ExpenseLab.get(FlexibleExpenditureActivity.this);
+        expenseLab.updatePreferences(FlexibleExpenditureActivity.this);
 
-        getPreferences();
+        // Calculate monthly data
+        mSpendingTotal = expenseLab.setSpendingTotal(Expense.FLEXIBLE_EXPENSE, FlexibleExpenditureActivity.this, TAG);
+        String monthlyAmountRemaining = expenseLab.getMonthlyExpense(expenseLab.getMonthlyIncome(), expenseLab.getPercentFlexibleExpenditure(), mSpendingTotal);
 
-        //calculate monthly data
-        String spendingTotal = FinanceDataHelper.setSpendingTotal(parseCategory, FlexibleExpenditureActivity.this, TAG);
-        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, flexiblePercent, spendingTotal);
         //Show total remaining to screen
         mTotalRemaining.setText(monthlyAmountRemaining);
     }
@@ -84,7 +86,7 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
     }
 
     //Changes to ManageDataActivity Activity
-    @OnClick(R.id.button_manageData) protected void toManageData(){
+    @OnClick(R.id.button_manageData) protected void toManageData() {
         startActivity(new Intent(FlexibleExpenditureActivity.this, ManageDataActivity.class));
     }
 
@@ -109,19 +111,5 @@ public class FlexibleExpenditureActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    //gets user finance preferences and saves to global variables
-    private void getPreferences(){
-
-        //get shared preference data, convert to string and save to global variable
-        monthlyIncome = Integer.toString(SharedPreferenceHelper.getMonthlyIncome(FlexibleExpenditureActivity.this));
-        int percent = SharedPreferenceHelper.getFlexiblePercent(FlexibleExpenditureActivity.this);
-
-
-        //convert Flexible Percent to a double and convert percentage to decimal format
-        double result = percent/100.0;
-        flexiblePercent = Double.toString(result);
-    }
-
 
 }

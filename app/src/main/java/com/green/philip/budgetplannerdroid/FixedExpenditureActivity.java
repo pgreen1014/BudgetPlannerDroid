@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,11 +24,11 @@ public class FixedExpenditureActivity extends AppCompatActivity {
     @Bind(R.id.editText_fixedExpense) EditText mFixedAmount;
     @Bind(R.id.editText_fixedDetails) EditText mFixedDetails;
     @Bind(R.id.textView_totalFixedExpenditureRemaining) TextView mTotalRemainingExpenditure;
+
     private static final String TAG = "FixedExpenditureActivity";
     private static final String parseCategory = "Fixed_Expenditure";
 
-    private static String monthlyIncome;
-    private static String fixedPercent;
+    private BigDecimal mSpendingTotal;
 
 
     @Override
@@ -38,11 +40,12 @@ public class FixedExpenditureActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //get data from sharedPreferences
-        getPreferences();
+        ExpenseLab expenseLab = ExpenseLab.get(FixedExpenditureActivity.this);
+        expenseLab.updatePreferences(FixedExpenditureActivity.this);
 
         //Calculate monthly fixed data
-        String totalToSpend = FinanceDataHelper.setSpendingTotal(parseCategory, FixedExpenditureActivity.this, TAG);
-        String monthlyAmountRemaining = FinanceDataHelper.setMonthlyExpense(monthlyIncome, fixedPercent, totalToSpend);
+        mSpendingTotal = expenseLab.setSpendingTotal(Expense.FIXED_EXPENSE, FixedExpenditureActivity.this, TAG);
+        String monthlyAmountRemaining = expenseLab.getMonthlyExpense(expenseLab.getMonthlyIncome(), expenseLab.getPercentFlexibleExpenditure(), mSpendingTotal);
 
         mTotalRemainingExpenditure.setText(monthlyAmountRemaining);
     }
@@ -73,21 +76,6 @@ public class FixedExpenditureActivity extends AppCompatActivity {
     //Takes user to manage data
     @OnClick(R.id.button_returnToManageData) protected void returnToManageData() {
         startActivity(new Intent(FixedExpenditureActivity.this, ManageDataActivity.class));
-    }
-
-    //gets user finance preferences and saves to global variables
-    private void getPreferences() {
-        //initialized shared preferences object
-        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-
-        //retrieve shared preferences, convert to string, and save to global variable
-        int income = SharedPreferenceHelper.getMonthlyIncome(FixedExpenditureActivity.this);
-        monthlyIncome = Integer.toString(income);
-        int percent = SharedPreferenceHelper.getFixedPercent(FixedExpenditureActivity.this);
-
-        //convert percent to decimal form
-        double result = percent/100.0;
-        fixedPercent = Double.toString(result);
     }
 
 }
