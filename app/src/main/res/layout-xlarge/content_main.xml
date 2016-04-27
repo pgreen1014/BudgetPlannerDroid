@@ -67,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/addData"
-        android:id="@+id/button_addFlexibleData"
+        android:id="@+id/button_addData"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -97,7 +97,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/remainingAmount"
         android:id="@+id/textView_flexibleRemainingAmount"
-        android:layout_alignTop="@+id/button_addFlexibleData"
+        android:layout_alignTop="@id/button_addData"
         android:layout_marginTop="200dp"
         android:layout_marginLeft="200dp"
         android:layout_alignParentLeft="true"

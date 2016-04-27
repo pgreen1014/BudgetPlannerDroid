@@ -26,30 +26,7 @@ public class FixedExpenditureActivity extends ExpenditureActivityTemplate {
     @Bind(R.id.textView_totalFixedExpenditureRemaining) TextView mTotalRemainingExpenditure;
 
     private static final String parseCategory = "Fixed_Expenditure";
-
-
-    //Add fixed expenditure data
-    @OnClick(R.id.button_addFixedExpense) protected void addData() {
-        //Get fixed amount and save to string
-        String fixedText = mFixedAmount.getText().toString();
-        //parse editFixedAmount and save as a double
-        double fixedExpense = ParserHelper.parseDouble(mFixedAmount.getText().toString());
-
-        //if parsing was successful, fixedDouble will not equal 0 and we can add data
-        if(fixedText != null){
-            ParseHelper.putExpenditure(parseCategory, fixedText, mFixedDetails.getText().toString());
-
-            //calculate new totalRemainingFixedExpenditure and show to screen
-            String totalExpenditureRemaining = FinanceDataHelper.returnTotalRemaining(mTotalRemainingExpenditure.getText(), fixedText);
-            mTotalRemainingExpenditure.setText(String.valueOf(totalExpenditureRemaining));
-
-            Toast.makeText(FixedExpenditureActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
-        }
-        //else data is invalid and will not be inserted
-        else{
-            Toast.makeText(FixedExpenditureActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
-        }
-    }
+    private static final String TAG = "FixedExpenditureActivity";
 
     //Takes user to manage data
     @OnClick(R.id.button_returnToManageData) protected void returnToManageData() {
@@ -67,13 +44,38 @@ public class FixedExpenditureActivity extends ExpenditureActivityTemplate {
     }
 
     @Override
+    protected EditText amountExpense() {
+        return mFixedAmount;
+    }
+
+    @Override
+    protected EditText detailsExpense() {
+        return mFixedDetails;
+    }
+
+    @Override
     protected String expenseCategory() {
         return Expense.FIXED_EXPENSE;
+    }
+
+    @Override
+    protected String parseCategory() {
+        return parseCategory;
     }
 
     @Override
     protected BigDecimal getExpenditureCategoryPercent() {
         ExpenseLab expenseLab = ExpenseLab.get(FixedExpenditureActivity.this);
         return expenseLab.getPercentFixedExpenditure();
+    }
+
+    @Override
+    protected Context activityContext() {
+        return FixedExpenditureActivity.this;
+    }
+
+    @Override
+    protected String TAG() {
+        return TAG;
     }
 }

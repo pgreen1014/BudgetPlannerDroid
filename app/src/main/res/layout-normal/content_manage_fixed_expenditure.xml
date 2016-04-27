@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/addData"
-        android:id="@+id/button_addFixedExpense"
+        android:id="@+id/button_addData"
         android:layout_above="@+id/textView_remainingFixedExpenditure"
         android:layout_marginBottom="30dp"
         android:layout_centerHorizontal="true" />
@@ -69,8 +69,8 @@
         android:text="@string/rtn"
         android:id="@+id/button_returnToManageData"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/button_addFixedExpense"
-        android:layout_alignEnd="@+id/button_addFixedExpense"
+        android:layout_alignRight="@id/button_addData"
+        android:layout_alignEnd="@id/button_addData"
         android:layout_marginBottom="60dp" />
 
     <EditText

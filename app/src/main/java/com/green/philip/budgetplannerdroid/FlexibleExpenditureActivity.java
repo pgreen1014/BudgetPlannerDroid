@@ -1,6 +1,7 @@
 package com.green.philip.budgetplannerdroid;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -35,33 +36,6 @@ public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
     //takes user to SetPreferencesActivity activity
     @OnClick(R.id.button_toPreferences) protected void toSetPreferences(){
         startActivity(new Intent(FlexibleExpenditureActivity.this, SetPreferencesActivity.class));
-    }
-
-    //Adds data to the parse cloud when with the btnAddFlexibleData
-    //Need to implement remaining amount into addDataCloud()
-    @OnClick(R.id.button_addFlexibleData) protected void addData(){
-
-        //Get Flexible amount and save to string
-        String flexibleText = mFlexibleAmount.getText().toString();
-
-        //if user input data, flexible amount not equal null and we can add data
-        if (flexibleText != null) {
-
-            //put data into parse database
-            ParseHelper.putExpenditure(parseCategory, flexibleText, mFlexibleDetails.getText().toString());
-
-            //calculate new total remaining to spend and show to screen
-            String result = FinanceDataHelper.returnTotalRemaining(mTotalRemaining.getText(), flexibleText);
-            mTotalRemaining.setText(result);
-
-            //notify user of successful data insertion
-            Toast.makeText(FlexibleExpenditureActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
-        }
-        //else data is invalid and will not be inserted
-        else {
-            Toast.makeText(FlexibleExpenditureActivity.this, "Invalid Amount", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Unable to parse user input");
-        }
     }
 
     //Changes to ManageDataActivity Activity
@@ -102,14 +76,39 @@ public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
     }
 
     @Override
+    protected EditText amountExpense() {
+        return mFlexibleAmount;
+    }
+
+    @Override
+    protected EditText detailsExpense() {
+        return mFlexibleDetails;
+    }
+
+    @Override
     protected String expenseCategory() {
         return Expense.FLEXIBLE_EXPENSE;
+    }
+
+    @Override
+    protected String parseCategory() {
+        return parseCategory;
     }
 
     @Override
     protected BigDecimal getExpenditureCategoryPercent() {
         ExpenseLab expenseLab = ExpenseLab.get(FlexibleExpenditureActivity.this);
         return expenseLab.getPercentFlexibleExpenditure();
+    }
+
+    @Override
+    protected Context activityContext() {
+        return FlexibleExpenditureActivity.this;
+    }
+
+    @Override
+    protected String TAG() {
+        return TAG;
     }
 }
 
