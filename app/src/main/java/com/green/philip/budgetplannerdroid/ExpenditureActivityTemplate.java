@@ -57,25 +57,24 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
 
     @OnClick(R.id.button_addData) protected void addData() {
 
-        //Get Flexible amount and save to string
-        String flexibleText = amountExpense().getText().toString();
+        // Get expense amount and save to string
+        String amountText = amountExpense().getText().toString();
 
-        //if user input data, flexible amount not equal null and we can add data
-        if (flexibleText != null) {
+        // if not empty then we can use data else inform user of error
+        if (amountText != null) {
 
-            //put data into parse database
-            ParseHelper.putExpenditure(parseCategory(), flexibleText, detailsExpense().getText().toString());
+            // put data into parse database
+            ParseHelper.putExpenditure(parseCategory(), amountText, detailsExpense().getText().toString());
 
-            //calculate new total remaining to spend and show to screen
-            String result = totalRemainingToSpend(totalRemainingTextView().getText(), flexibleText);
+            // calculate new total remaining to spend and show to screen
+            String result = totalRemainingToSpend(totalRemainingTextView().getText(), amountText);
             totalRemainingTextView().setText(result);
 
-            //notify user of successful data insertion
-            Toast.makeText(activityContext(), "Data Inserted", Toast.LENGTH_LONG).show();
+            // notify user of successful data insertion
+            Toast.makeText(activityContext(), "Data Inserted", Toast.LENGTH_SHORT).show();
         }
-        //else data is invalid and will not be inserted
         else {
-            Toast.makeText(activityContext(), "Invalid Amount", Toast.LENGTH_LONG).show();
+            Toast.makeText(activityContext(), "Invalid Amount", Toast.LENGTH_SHORT).show();
             Log.d(TAG(), "Unable to parse user input");
         }
 
