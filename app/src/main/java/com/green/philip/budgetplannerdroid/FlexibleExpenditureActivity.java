@@ -3,25 +3,16 @@ package com.green.philip.budgetplannerdroid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.math.BigDecimal;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import helperClasses.FinanceDataHelper;
-import helperClasses.ParseHelper;
-import helperClasses.SharedPreferenceHelper;
 
 public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
     //Bind Views

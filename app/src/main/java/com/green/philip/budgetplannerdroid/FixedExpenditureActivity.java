@@ -2,23 +2,13 @@ package com.green.philip.budgetplannerdroid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.math.BigDecimal;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import helperClasses.FinanceDataHelper;
-import helperClasses.ParseHelper;
-import helperClasses.ParserHelper;
-import helperClasses.SharedPreferenceHelper;
 
 public class FixedExpenditureActivity extends ExpenditureActivityTemplate {
     @Bind(R.id.editText_fixedExpense) EditText mFixedAmount;

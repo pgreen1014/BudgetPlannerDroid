@@ -11,10 +11,8 @@ import android.widget.Toast;
 
 import java.math.BigDecimal;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import helperClasses.FinanceDataHelper;
 import helperClasses.ParseHelper;
 
 /**
@@ -69,7 +67,7 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
             ParseHelper.putExpenditure(parseCategory(), flexibleText, detailsExpense().getText().toString());
 
             //calculate new total remaining to spend and show to screen
-            String result = FinanceDataHelper.returnTotalRemaining(totalRemainingTextView().getText(), flexibleText);
+            String result = totalRemainingToSpend(totalRemainingTextView().getText(), flexibleText);
             totalRemainingTextView().setText(result);
 
             //notify user of successful data insertion
@@ -81,6 +79,18 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
             Log.d(TAG(), "Unable to parse user input");
         }
 
+    }
+
+    private String totalRemainingToSpend(CharSequence amountRemaining, String expense){
+        //Convert Parameters into BigDecimal
+        BigDecimal remaining = new BigDecimal(amountRemaining.toString());
+        BigDecimal spent = new BigDecimal(expense);
+
+        //Calculate new total remaining
+        BigDecimal result = remaining.subtract(spent);
+
+        //return result as String
+        return result.toString();
     }
 
 
