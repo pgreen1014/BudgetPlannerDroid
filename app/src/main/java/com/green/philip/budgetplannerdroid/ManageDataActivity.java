@@ -104,11 +104,11 @@ public class ManageDataActivity extends AppCompatActivity {
         ParseHelper.deleteAllData();
         Toast.makeText(ManageDataActivity.this, "All Data Deleted", Toast.LENGTH_LONG).show();
     }
-
+    /*
     @OnClick(R.id.button_toFixedExpenditure) protected void toManageFixedExpenditure(){
         startActivity(new Intent(ManageDataActivity.this, FixedExpenditureActivity.class));
     }
-
+    */
     @OnClick(R.id.button_returnToMain) protected void toMainMenu() {
         startActivity(new Intent(ManageDataActivity.this, FlexibleExpenditureActivity.class));
     }

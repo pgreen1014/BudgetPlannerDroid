@@ -34,6 +34,12 @@ public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
         startActivity(new Intent(FlexibleExpenditureActivity.this, ManageDataActivity.class));
     }
 
+    // Start FixedExpenditure Activity
+    @OnClick(R.id.button_Fixed_Expenditure_Intent) protected void toFixedExpenditure() {
+        Intent i = new Intent(FlexibleExpenditureActivity.this, FixedExpenditureActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

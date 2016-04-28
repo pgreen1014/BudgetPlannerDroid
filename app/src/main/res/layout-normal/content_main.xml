@@ -87,7 +87,8 @@
         android:layout_height="wrap_content"
         android:text="@string/manageData"
         android:id="@+id/button_manageData"
-        android:layout_alignTop="@+id/button_toPreferences"
+        android:layout_above="@id/button_toPreferences"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -113,6 +114,14 @@
         android:layout_alignParentRight="true"
         android:layout_toEndOf="@+id/textView_flexibleAmount"
         android:layout_toRightOf="@+id/textView_flexibleAmount"/>
+
+    <Button
+        android:id="@+id/button_Fixed_Expenditure_Intent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fixedExpenditure"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/button_toPreferences"/>
 
 </RelativeLayout>
 
