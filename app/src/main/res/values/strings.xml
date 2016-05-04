@@ -6,6 +6,7 @@
     <string name="title_activity_manage_data">ManageData</string>
     <string name="title_activity_manage_fixed_expenditure">ManageFixedExpenditure</string>
     <string name="title_activity_test">Test</string>
+    <string name="title_expense_list">ExpenseList</string>
     <string name="monthlyIncome">Monthly Income</string>
     <string name="fixedExpenditurePercent">Fixed Expenditure Percent</string>
     <string name="savingsPercent">Savings Percent</string>
@@ -26,6 +27,7 @@
     <string name="id">ID</string>
     <string name="delete">Delete</string>
     <string name="fixedExpenditure">Fixed Expenditure</string>
+    <string name="flexibleExpenditure">Flexible Expenditure</string>
     <string name="deleteAllData">Delete All Data</string>
     <string name="rtn">Return</string>
 </resources>

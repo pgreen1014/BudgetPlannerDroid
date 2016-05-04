@@ -4,7 +4,11 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import helperClasses.ParseHelper;
 import helperClasses.SharedPreferenceHelper;
@@ -13,11 +17,14 @@ import helperClasses.SharedPreferenceHelper;
  * Created by Philip on 4/25/2016.
  */
 public class ExpenseLab {
+    private static final String TAG = "ExpenseLab";
+
     private static ExpenseLab sExpenseLab;
     private static BigDecimal sMonthlyIncome;
     private static BigDecimal sPercentFlexibleExpenditure;
     private static BigDecimal sPercentFixedExpenditure;
     private static BigDecimal sPercentSavings;
+    private List<Expense> mExpenses;
 
     public static ExpenseLab get(Context context) {
         if (sExpenseLab == null) {
@@ -27,10 +34,37 @@ public class ExpenseLab {
     }
 
     private ExpenseLab(Context context) {
+        mExpenses = new ArrayList<>();
         setPercentFixedExpenditure(context);
         setPercentFlexibleExpenditure(context);
         setPercentSavings(context);
         setMonthlyIncome(context);
+        setExpenses();
+    }
+
+    private void setExpenses() {
+        List<ParseObject> results = ParseHelper.getAllData();
+        for(ParseObject result: results){
+            Expense expense = new Expense();
+
+            String objectID = result.getObjectId();
+            expense.setId(objectID);
+
+            String amount = String.valueOf(result.getDouble("amount"));
+            expense.setAmount(new BigDecimal(amount));
+
+            String details = result.getString("details");
+            expense.setDetail(details);
+
+            String category = result.getString("category");
+            expense.setExpenditureType(category, TAG);
+
+            mExpenses.add(expense);
+        }
+    }
+
+    public List<Expense> getExpenses() {
+        return mExpenses;
     }
 
     public BigDecimal getMonthlyIncome() {

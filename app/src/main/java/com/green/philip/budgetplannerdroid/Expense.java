@@ -1,5 +1,6 @@
 package com.green.philip.budgetplannerdroid;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ public class Expense {
     private BigDecimal mAmount;
     private String mDetail;
     private String mExpenditureType;
+    private boolean mToDelete;
 
     public static final String FLEXIBLE_EXPENSE = "Flexible_Expenditure";
     public static final String FIXED_EXPENSE = "Fixed_Expenditure";
@@ -49,11 +51,43 @@ public class Expense {
         return mExpenditureType;
     }
 
-    public void setExpenditureType(String expenditureType, String TAG) {
-        if (expenditureType == FIXED_EXPENSE || expenditureType == FLEXIBLE_EXPENSE) {
-            mExpenditureType = expenditureType;
-        } else {
-            Log.d("must use defined string", TAG);
+    // Returns a user friendly version of mExpenditureType
+    public String getExpenditureCategory(Context context) {
+        String category;
+        switch(mExpenditureType) {
+            case FLEXIBLE_EXPENSE:
+                category = context.getResources().getString(R.string.flexibleExpenditure);
+                break;
+            case FIXED_EXPENSE:
+                category = context.getResources().getString(R.string.fixedExpenditure);
+                break;
+            default:
+                category = null;
+                Log.e(TAG, "No category set");
+                break;
         }
+        return category;
+    }
+
+    public void setExpenditureType(String expenditureType, String TAG) {
+        switch(expenditureType) {
+            case FLEXIBLE_EXPENSE:
+                mExpenditureType = expenditureType;
+                break;
+            case FIXED_EXPENSE:
+                mExpenditureType = expenditureType;
+                break;
+            default:
+                Log.e(TAG, "unable to retrieve category");
+                break;
+        }
+    }
+
+    public boolean isToDelete() {
+        return mToDelete;
+    }
+
+    public void setToDelete(boolean toDelete) {
+        mToDelete = toDelete;
     }
 }

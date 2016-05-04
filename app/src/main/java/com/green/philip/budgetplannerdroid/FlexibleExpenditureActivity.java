@@ -40,6 +40,12 @@ public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
         startActivity(i);
     }
 
+    // Start ExpenseListActivity
+    @OnClick(R.id.expense_list_button) protected void toExpenseList() {
+        Intent i = new Intent(FlexibleExpenditureActivity.this, ExpenseListActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
