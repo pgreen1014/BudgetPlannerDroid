@@ -45,6 +45,10 @@
             android:label="@string/title_activity_manage_fixed_expenditure"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ExpenseListActivity"
+            android:label="@string/title_expense_list"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
