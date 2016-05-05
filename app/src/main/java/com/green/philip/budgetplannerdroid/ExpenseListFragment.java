@@ -7,8 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -42,30 +45,38 @@ public class ExpenseListFragment extends Fragment {
         mExpenseRecyclerView.setAdapter(mAdapter);
     }
 
-    private class ExpenseHolder extends RecyclerView.ViewHolder {
+    private class ExpenseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Expense mExpense;
         private TextView mAmountTextView;
-        private TextView mExpenseCateogoryTextView;
+        private TextView mExpenseCategoryTextView;
         private TextView mExpenseDetailsTextView;
         private CheckBox mDeleteExpenseCheckBox;
 
         public ExpenseHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             mAmountTextView = (TextView)itemView.findViewById(R.id.text_view_list_item_expense_amount);
-            mExpenseCateogoryTextView = (TextView)itemView.findViewById(R.id.text_view_list_item_expense_category);
+            mExpenseCategoryTextView = (TextView)itemView.findViewById(R.id.text_view_list_item_expense_category);
             mExpenseDetailsTextView = (TextView)itemView.findViewById(R.id.text_view_list_item_expense_details);
             mDeleteExpenseCheckBox = (CheckBox)itemView.findViewById(R.id.check_box_delete_expense_list_item);
+
         }
 
         public void bindExpense(Expense expense) {
             mExpense = expense;
             mAmountTextView.setText(mExpense.getAmount().toString());
 
-            String category = expense.getExpenditureCategory(getActivity()) + ":";
-            mExpenseCateogoryTextView.setText(category);
+            String category = expense.getExpenditureCategory(getContext()) + ":";
+            mExpenseCategoryTextView.setText(category);
 
             mExpenseDetailsTextView.setText(mExpense.getDetail());
+            mDeleteExpenseCheckBox.setChecked(mExpense.isToDelete());
+        }
+
+        @Override
+        public void onClick(View v) {
+            mExpense.setToDelete(!mExpense.isToDelete());
             mDeleteExpenseCheckBox.setChecked(mExpense.isToDelete());
         }
     }
@@ -89,6 +100,7 @@ public class ExpenseListFragment extends Fragment {
         public void onBindViewHolder(ExpenseHolder holder, int position) {
             Expense expense = mExpenses.get(position);
             holder.bindExpense(expense);
+
         }
 
         @Override
