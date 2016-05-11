@@ -40,6 +40,13 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
     protected abstract String TAG();
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        updateUI();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(setLayout());
@@ -47,14 +54,7 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        mExpenseLab = ExpenseLab.get(getApplicationContext());
-        mExpenseLab.updatePreferences(getApplicationContext());
-
-        mSpendingTotal = mExpenseLab.setSpendingTotal(expenseCategory(), getApplicationContext());
-        String monthlyAmountRemaining = mExpenseLab.getMonthlyExpense(mExpenseLab.getMonthlyIncome(), getExpenditureCategoryPercent(), mSpendingTotal);
-
-        //Show total remaining to screen
-        totalRemainingTextView().setText(monthlyAmountRemaining);
+        updateUI();
     }
 
     @OnClick(R.id.button_addData) protected void addData() {
@@ -96,5 +96,15 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
         return result.toString();
     }
 
+    private void updateUI() {
+        mExpenseLab = ExpenseLab.get(getApplicationContext());
+        mExpenseLab.updatePreferences(getApplicationContext());
+
+        mSpendingTotal = mExpenseLab.setSpendingTotal(expenseCategory(), getApplicationContext());
+        String monthlyAmountRemaining = mExpenseLab.getMonthlyExpense(mExpenseLab.getMonthlyIncome(), getExpenditureCategoryPercent(), mSpendingTotal);
+
+        //Show total remaining to screen
+        totalRemainingTextView().setText(monthlyAmountRemaining);
+    }
 
 }

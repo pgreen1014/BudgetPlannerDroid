@@ -4,6 +4,7 @@ package com.green.philip.budgetplannerdroid;
 import android.content.Context;
 import android.content.Intent;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -21,8 +22,6 @@ public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
     @Bind(R.id.textView_totalRemaining) TextView mTotalRemaining;
     //Declare global fields
     private static final String TAG = "FlexExpenditureActivity";
-    private static final String parseCategory = "Flexible_Expenditure";
-
 
     //takes user to SetPreferencesActivity activity
     @OnClick(R.id.button_toPreferences) protected void toSetPreferences(){
