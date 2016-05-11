@@ -42,25 +42,21 @@ public class ExpenseLab {
         setExpenses();
     }
 
-    private void setExpenses() {
+    public void setExpenses() {
         List<ParseObject> results = ParseHelper.getAllData();
+        List<Expense> expenses = new ArrayList<>();
         for(ParseObject result: results){
-            Expense expense = new Expense();
-
             String objectID = result.getObjectId();
+            String amount = String.valueOf(result.getDouble("amount"));
+            String details = result.getString("details");
+            String category = result.getString("category");
+
+            Expense expense = new Expense(amount, details, category);
             expense.setId(objectID);
 
-            String amount = String.valueOf(result.getDouble("amount"));
-            expense.setAmount(new BigDecimal(amount));
-
-            String details = result.getString("details");
-            expense.setDetail(details);
-
-            String category = result.getString("category");
-            expense.setExpenditureType(category, TAG);
-
-            mExpenses.add(expense);
+            expenses.add(expense);
         }
+        mExpenses = expenses;
     }
 
     public List<Expense> getExpenses() {
@@ -146,4 +142,14 @@ public class ExpenseLab {
             return new BigDecimal(Double.toString(expenses));
         }
     }
+
+    public void deleteExpense(Expense expense) {
+        ParseHelper.deleteObject(expense.getId());
+        mExpenses.remove(expense);
+    }
+
+    public void addExpense(Expense expense) {
+        mExpenses.add(expense);
+    }
+
 }

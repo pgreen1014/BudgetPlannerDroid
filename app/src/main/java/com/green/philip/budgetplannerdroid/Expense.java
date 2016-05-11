@@ -20,7 +20,10 @@ public class Expense {
     public static final String FIXED_EXPENSE = "Fixed_Expenditure";
     private static final String TAG = "Expense.java";
 
-    public Expense() {
+    public Expense(String amount, String detail, String expenditureType) {
+        mAmount = new BigDecimal(amount);
+        mDetail = detail;
+        mExpenditureType = expenditureType;
     }
 
     public String getId() {

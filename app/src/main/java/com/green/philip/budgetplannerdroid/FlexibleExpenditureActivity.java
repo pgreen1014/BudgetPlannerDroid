@@ -93,9 +93,8 @@ public class FlexibleExpenditureActivity extends ExpenditureActivityTemplate {
         return Expense.FLEXIBLE_EXPENSE;
     }
 
-    @Override
-    protected String parseCategory() {
-        return parseCategory;
+    @Override protected String expenditureType() {
+        return Expense.FLEXIBLE_EXPENSE;
     }
 
     @Override

@@ -21,6 +21,8 @@ import helperClasses.ParseHelper;
 public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
 
     private BigDecimal mSpendingTotal;
+    private String mExpenditureType = expenditureType();
+    private ExpenseLab mExpenseLab;
 
     protected abstract int setLayout();
 
@@ -29,7 +31,7 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
     protected abstract EditText detailsExpense();
 
     protected abstract String expenseCategory();
-    protected abstract String parseCategory();
+    protected abstract String expenditureType();
 
     protected abstract BigDecimal getExpenditureCategoryPercent();
 
@@ -45,11 +47,11 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
-        ExpenseLab expenseLab = ExpenseLab.get(getApplicationContext());
-        expenseLab.updatePreferences(getApplicationContext());
+        mExpenseLab = ExpenseLab.get(getApplicationContext());
+        mExpenseLab.updatePreferences(getApplicationContext());
 
-        mSpendingTotal = expenseLab.setSpendingTotal(expenseCategory(), getApplicationContext());
-        String monthlyAmountRemaining = expenseLab.getMonthlyExpense(expenseLab.getMonthlyIncome(), getExpenditureCategoryPercent(), mSpendingTotal);
+        mSpendingTotal = mExpenseLab.setSpendingTotal(expenseCategory(), getApplicationContext());
+        String monthlyAmountRemaining = mExpenseLab.getMonthlyExpense(mExpenseLab.getMonthlyIncome(), getExpenditureCategoryPercent(), mSpendingTotal);
 
         //Show total remaining to screen
         totalRemainingTextView().setText(monthlyAmountRemaining);
@@ -59,12 +61,14 @@ public abstract class ExpenditureActivityTemplate extends AppCompatActivity{
 
         // Get expense amount and save to string
         String amountText = amountExpense().getText().toString();
-
+        String detailsText = detailsExpense().getText().toString();
+        Expense expense = new Expense(amountText, detailsText, mExpenditureType);
         // if not empty then we can use data else inform user of error
         if (amountText != null) {
 
-            // put data into parse database
-            ParseHelper.putExpenditure(parseCategory(), amountText, detailsExpense().getText().toString());
+            // put data into parse database and ExpenseLab
+            ParseHelper.putExpenditure(mExpenditureType, amountText, detailsExpense().getText().toString());
+            mExpenseLab.addExpense(expense);
 
             // calculate new total remaining to spend and show to screen
             String result = totalRemainingToSpend(totalRemainingTextView().getText(), amountText);

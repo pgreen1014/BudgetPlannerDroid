@@ -13,17 +13,23 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
+import helperClasses.ParseHelper;
 
 /**
  * Created by Philip on 4/28/2016.
  */
 public class ExpenseListFragment extends Fragment {
     private RecyclerView mExpenseRecyclerView;
+    private Button mDeleteExpenseButton;
 
     private ExpenseAdapter mAdapter;
+    private List<Expense> mExpenses;
+    private ExpenseLab mExpenseLab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,17 +38,51 @@ public class ExpenseListFragment extends Fragment {
         mExpenseRecyclerView = (RecyclerView) view.findViewById(R.id.expense_recycler_view);
         mExpenseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        mDeleteExpenseButton = (Button) view.findViewById(R.id.button_delete_checked_list_items);
+        mDeleteExpenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Expense> expensesToDelete = new ArrayList<Expense>();
+
+                for(Expense expense: mExpenses) {
+                    if(expense.isToDelete()) {
+                        expensesToDelete.add(expense);
+                    }
+                }
+
+                if(!expensesToDelete.isEmpty()) {
+                    for(Expense expense: expensesToDelete) {
+                        ParseHelper.deleteObject(expense.getId());
+                    }
+                    mExpenses.removeAll(expensesToDelete);
+                }
+
+                updateUI();
+                getActivity().finish();
+
+            }
+        });
+
         updateUI();
 
         return view;
     }
 
-    private void updateUI() {
-        ExpenseLab expenseLab = ExpenseLab.get(getActivity());
-        List<Expense> expenses = expenseLab.getExpenses();
 
-        mAdapter = new ExpenseAdapter(expenses);
-        mExpenseRecyclerView.setAdapter(mAdapter);
+
+    private void updateUI() {
+        mExpenseLab = ExpenseLab.get(getActivity());
+        mExpenseLab.setExpenses();
+        mExpenses = mExpenseLab.getExpenses();
+
+        if(mAdapter == null) {
+            mAdapter = new ExpenseAdapter(mExpenses);
+            mExpenseRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.setExpenses(mExpenses);
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 
     private class ExpenseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -106,6 +146,10 @@ public class ExpenseListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mExpenses.size();
+        }
+
+        public void setExpenses(List<Expense> expenses) {
+            mExpenses = expenses;
         }
     }
 

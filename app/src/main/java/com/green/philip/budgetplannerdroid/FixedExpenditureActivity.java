@@ -48,9 +48,8 @@ public class FixedExpenditureActivity extends ExpenditureActivityTemplate {
         return Expense.FIXED_EXPENSE;
     }
 
-    @Override
-    protected String parseCategory() {
-        return parseCategory;
+    @Override protected String expenditureType() {
+        return Expense.FIXED_EXPENSE;
     }
 
     @Override
